@@ -1,0 +1,29 @@
+{
+  "name": "zangdar",
+  "version": "1.0.0",
+  "description": "A JavaScript to simply generate and handle HTML form wizards",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/betaWeb/zangdar.git"
+  },
+  "keywords": [
+    "javascript",
+    "form",
+    "wizard",
+    "html",
+    "simple",
+    "handle",
+    "js",
+    "magic"
+  ],
+  "author": "Cyprien GLEPIN <betaweb34@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/betaWeb/zangdar/issues"
+  },
+  "homepage": "https://github.com/betaWeb/zangdar#readme"
+}
