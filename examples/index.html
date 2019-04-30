@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Zangdar</title>
+	<style>
+		.zandgar__wizard .zandgar__step {
+			display: none;
+		}
+		.zandgar__wizard .zandgar__step.zandgar__step__active {
+			display: block;
+		}
+	</style>
+</head>
+<body>
+
+<h2>Wizard generated from HTML</h2>
+<form id="zangdar-form">
+	<button data-prev>Prec.</button>
+
+	<section data-step="1">
+		<div class="field__name">
+			<label for="name">Nom</label>
+			<input type="text" id="name" name="name" required>
+		</div>
+		<div class="field__email">
+			<label for="email">Email</label>
+			<input type="text" id="email" name="email" required>
+		</div>
+
+		<div>
+			<button data-next>Suivant</button>
+		</div>
+	</section>
+
+	<section data-step="2">
+		<div class="field__password">
+			<label for="password">Mot de passe</label>
+			<input type="password" id="password" name="password" required>
+		</div>
+		<div class="field__password_confirm">
+			<label for="password_confirm">Confirmer le mot de passe</label>
+			<input type="password" id="password_confirm" name="password_confirm" required>
+		</div>
+		<div>
+			<button data-next>Suivant</button>
+		</div>
+	</section>
+
+	<section data-step="3">
+		<div class="field__genre">
+			<label for="genre">Sélectionner votre genre</label>
+			<select id="genre" name="genre" required>
+				<option value="" disabled selected>Sélectionner...</option>
+				<option value="1">Male</option>
+				<option value="2">Female</option>
+				<option value="3">Other</option>
+			</select>
+		</div>
+		<button type="submit">Envoyer</button>
+	</section>
+
+</form>
+
+<hr>
+
+<h2>Wizard generated from JS template</h2>
+<form id="zangdar-form-2">
+	<div class="field__name">
+		<label for="name">Nom</label>
+		<input type="text" id="name" name="name" required>
+	</div>
+	<div class="field__email">
+		<label for="email">Email</label>
+		<input type="text" id="email" name="email" required>
+	</div>
+	<div class="field__password">
+		<label for="password">Mot de passe</label>
+		<input type="password" id="password" name="password" required>
+	</div>
+	<div class="field__password_confirm">
+		<label for="password_confirm">Confirmer le mot de passe</label>
+		<input type="password" id="password_confirm" name="password_confirm" required>
+	</div>
+	<div class="field__genre">
+		<label for="genre">Sélectionner votre genre</label>
+		<select id="genre" name="genre" required>
+			<option value="" disabled selected>Sélectionner...</option>
+			<option value="1">Male</option>
+			<option value="2">Female</option>
+			<option value="3">Other</option>
+		</select>
+	</div>
+	<button type="submit">Envoyer</button>
+</form>
+
+<script src="../dist/zangdar.min.js"></script>
+<script>
+	document.addEventListener('DOMContentLoaded', () => {
+
+		new Zangdar('#zangdar-form')
+
+        new Zangdar('#zangdar-form-2').createFromTemplate({
+            'coords': ['.field__name', '.field__email'],
+            'password': ['.field__password', '.field__password_confirm'],
+            'others': ['.field__genre']
+        })
+
+	})
+</script>
+</body>
+</html>

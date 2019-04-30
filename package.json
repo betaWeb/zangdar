@@ -1,10 +1,11 @@
 {
   "name": "zangdar",
   "version": "1.0.0",
-  "description": "A JavaScript to simply generate and handle HTML form wizards",
+  "description": "A JavaScript library to simply generate and handle HTML form wizards",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "./node_modules/.bin/webpack --config webpack.config.js",
+    "doc": "jsdoc -p -R README.md -a all -c jsdoc.conf.json"
   },
   "repository": {
     "type": "git",
@@ -25,5 +26,16 @@
   "bugs": {
     "url": "https://github.com/betaWeb/zangdar/issues"
   },
-  "homepage": "https://github.com/betaWeb/zangdar#readme"
+  "homepage": "https://github.com/betaWeb/zangdar#readme",
+  "devDependencies": {
+    "@babel/core": "^7.4.4",
+    "@babel/plugin-proposal-class-properties": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
+    "@pixi/jsdoc-template": "^2.4.2",
+    "babel-loader": "^8.0.5",
+    "jsdoc": "^3.5.5",
+    "webpack": "^4.30.0",
+    "webpack-cli": "^3.3.1",
+    "webpack-node-externals": "^1.7.2"
+  }
 }

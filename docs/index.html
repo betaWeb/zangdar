@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Index</title>
+    
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <script src="scripts/jquery.min.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="https://fonts.googleapis.com/css?family=Libre+Franklin:400,700" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/main.css">
+    
+    
+    <script>
+    var config = {"monospaceLinks":true,"cleverLinks":true,"default":{}};
+    </script>
+    
+
+    
+</head>
+<body>
+<div id="wrap" class="clearfix">
+    
+<div class="navigation">
+    <h3 class="applicationName"><a href="index.html"></a></h3>
+    <button id="menuToggle" class="btn btn-link btn-lg menu-toggle">
+        <span class="glyphicon glyphicon-menu-hamburger"></span>
+    </button>
+    <div class="search">
+        <input id="search" type="text" class="form-control input-md" placeholder="Search...">
+    </div>
+    <ul class="list">
+    
+        <li class="item" data-name="Zangdar">
+            <span class="title  ">
+                
+                <a href="Zangdar.html">Zangdar</a>
+            </span>
+            <ul class="members itemMembers">
+            
+            <span class="subtitle">Members</span>
+            
+                <li class="parent " data-name="Zangdar#$form"><a href="Zangdar.html#$form">$form</a></li>
+            
+                <li class="parent " data-name="Zangdar#_$prevButton"><a href="Zangdar.html#_$prevButton">_$prevButton</a></li>
+            
+                <li class="parent " data-name="Zangdar#_currentIndex"><a href="Zangdar.html#_currentIndex">_currentIndex</a></li>
+            
+                <li class="parent " data-name="Zangdar#_params"><a href="Zangdar.html#_params">_params</a></li>
+            
+                <li class="parent " data-name="Zangdar#_steps"><a href="Zangdar.html#_steps">_steps</a></li>
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li class="parent  " data-name="Zangdar#_buildPrevButton"><a href="Zangdar.html#_buildPrevButton">_buildPrevButton</a></li>
+            
+                <li class="parent  " data-name="Zangdar#_buildSteps"><a href="Zangdar.html#_buildSteps">_buildSteps</a></li>
+            
+                <li class="parent  " data-name="Zangdar#_nextStep"><a href="Zangdar.html#_nextStep">_nextStep</a></li>
+            
+                <li class="parent  " data-name="Zangdar#_prevStep"><a href="Zangdar.html#_prevStep">_prevStep</a></li>
+            
+                <li class="parent  " data-name="Zangdar#_revealStep"><a href="Zangdar.html#_revealStep">_revealStep</a></li>
+            
+                <li class="parent  " data-name="Zangdar#_validateCurrentStep"><a href="Zangdar.html#_validateCurrentStep">_validateCurrentStep</a></li>
+            
+                <li class="parent  " data-name="Zangdar#createFromTemplate"><a href="Zangdar.html#createFromTemplate">createFromTemplate</a></li>
+            
+                <li class="parent  " data-name="Zangdar#getCurrentStep"><a href="Zangdar.html#getCurrentStep">getCurrentStep</a></li>
+            
+                <li class="parent  " data-name="Zangdar#goTo"><a href="Zangdar.html#goTo">goTo</a></li>
+            
+                <li class="parent  " data-name="Zangdar#goToStep"><a href="Zangdar.html#goToStep">goToStep</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
+    </ul>
+</div>
+    <div class="main">
+        <h1 class="page-title" data-filename="index.html">Index</h1>
+        
+
+
+    
+
+
+    <h3> </h3>
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article class="readme content-size"><h1>zangdar</h1><p>A JavaScript class to simply generate and handle HTML form wizards.</p>
+<p><br><br></p>
+<h2>Getting started</h2><h3>Installation</h3><p>To install Zangdar, you just have to download <code>zangdar.min.js</code> in the <code>dist</code> folder and add a script into your HTML page :</p>
+<pre class="prettyprint source lang-HTML"><code>&lt;script src=&quot;path/to/zangdar.min.js&quot;>&lt;/script></code></pre><p>Your have to add the basic CSS to your styles too :</p>
+<pre class="prettyprint source lang-CSS"><code>.zandgar__wizard .zandgar__step {
+    display: none;
+}
+.zandgar__wizard .zandgar__step.zandgar__step__active {
+    display: block;
+}</code></pre><p><br></p>
+<h3>Basic usage</h3><p>Here a basic HTML form with sections to separate wizard parts :</p>
+<pre class="prettyprint source lang-HTML"><code>&lt;form id=&quot;my-form&quot;>
+    &lt;section data-step=&quot;1&quot;>
+        &lt;input type=&quot;text&quot; name=&quot;name&quot; placeholder=&quot;Your name here...&quot;>
+        &lt;input type=&quot;text&quot; name=&quot;email&quot; placeholder=&quot;Your email here...&quot;>
+
+        &lt;button data-next>Next&lt;/button>
+    &lt;/section>
+
+    &lt;section data-step=&quot;1&quot;>
+        &lt;input type=&quot;password&quot; name=&quot;password&quot; placeholder=&quot;Your password here...&quot;>
+        &lt;input type=&quot;password&quot; name=&quot;password_confirm&quot; placeholder=&quot;Confirm your password here...&quot;>
+
+        &lt;button data-next>Next&lt;/button>
+    &lt;/section>
+
+    &lt;section data-step=&quot;1&quot;>
+        &lt;input type=&quot;date&quot; name=&quot;birthdate&quot; placeholder=&quot;Your birthdate...&quot;>
+        &lt;input type=&quot;text&quot; name=&quot;addresss&quot; placeholder=&quot;Your address here...&quot;>
+        &lt;input type=&quot;number&quot; name=&quot;zipcode&quot; placeholder=&quot;Your zipcode here...&quot;>
+        &lt;input type=&quot;text&quot; name=&quot;city&quot; placeholder=&quot;Your city here...&quot;>
+
+        &lt;button type=&quot;submit&quot;>Send&lt;/button>
+    &lt;/section>
+&lt;/form></code></pre><p><br></p>
+<p>And you just have to instanciate Zandgar with the selector of the form you wan't to handle :</p>
+<pre class="prettyprint source lang-JS"><code>document.addEventListener('DOMContentLoaded', () => {
+    const wizard = new Zangdar('#my-form')
+})</code></pre><p>And.. voilà ! You have a fully functional wizard ! :)</p></article>
+    </section>
+
+
+
+
+
+
+        
+
+        <footer class="content-size">
+            <div class="footer">
+                Documentation generated by <a target="_blank" href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Apr 30 2019 18:20:10 GMT+0200 (CEST)
+            </div>
+        </footer>
+    </div>
+</div>
+<script>prettyPrint();</script>
+<script src="scripts/main.js"></script>
+</body>
+</html>
