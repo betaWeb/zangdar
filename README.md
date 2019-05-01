@@ -68,3 +68,82 @@ document.addEventListener('DOMContentLoaded', () => {
 ```
 
 And.. voilà ! You have a fully functional wizard ! :)
+
+<br>
+
+### Options
+
+You can pass an object of options as second class parameter. This is very useful, especially for adding events to the wizard lifecycle.
+
+List of properties here :
+
+Name | Type | Default | Description
+--- | --- | --- | ---
+**step_selector** | *String* | `[data-step]` | Wizard step section selector
+**prev_step_selector** | *String* | `[data-prev]` | Wizard step previous button (or any element) selector
+**prev_step_selector** | *String* | `[data-next]` | Wizard step next button (or any element) selector
+**submit_selector** | *String* | `[type="submit"]` | Wizard form submit button selector
+**active_step_index** | *Number* | `0` | Wizard active step index (useful to define active step on wizard instanciation)
+**classes.form** | *String* | `zandgar__wizard` | Wizard form CSS class
+**classes.prev_button** | *String* | `zandgar__prev` | Wizard previous button (or any element) CSS class
+**classes.next_button** | *String* | `zandgar__next` | Wizard next button (or any element) CSS class
+**classes.step** | *String* | `zandgar__step` | Wizard step section CSS class
+**classes.step_active** | *String* | `zandgar__step__active` | Wizard active step section CSS class
+
+<br>
+
+List of events here :
+
+Name | Type | Default | Parameters | Description
+--- | --- | --- | --- | ---
+**onSubmit** | *Function* | `null` | `{Event} e` | Wizard form custom submit handler (see example below) 
+**onStepChange** | *Function* | `null` | `{Object} step`<br>`{Object} oldStep`<br>`{Number} direction`<br>`{HTMLFormElement} form` | method triggered when a step changes (see example below)
+**onValidation** | *Function* | `null` | `{Object} step`<br>`{NodeListOf} fields`<br>`{HTMLFormElement} form` | method triggered on wizard step HTML validation (see example below)
+**customValidation** | *Function* | `null` | `{Object} step`<br>`{NodeListOf} fields`<br>`{HTMLFormElement} form` | method triggered on wizard step HTML validation (see example below)
+
+<br>
+
+Here there are examples for the events listed above :
+```JS
+let processedSteps = {}
+const wizard = new Zangdar('#my-form', {
+    onSubmit(e) {
+        e.preventDefault()
+        
+        // Ajax call, custom form processing or anything you wan't to do here...
+        
+        return false
+    },
+    
+    onStepChange(step, oldStep, direction, form) {
+        !processedSteps[oldStep.label] && (processedSteps[oldStep.label] = false)
+        processedSteps[oldStep.label] = direction > 0
+    },
+    
+    onValidation(step, fields, form) {
+        // Here a treatment after HTML native validation...
+    },
+    
+    customValidation(step, fields, form) {
+        // Use the Formr library to validate fields (https://github.com/betaWeb/formr)
+        const validator = new Formr(form)
+        if (step.label === '...') {
+            validator
+                .required('name', 'email', 'password', 'confirm_password')
+                .string('name', 'email', 'password', 'confirm_password')
+                .email('email')
+                .length('password', 3, 20)
+                .length('confirm_password', 3, 20)
+                .same('password', 'confirm_password')
+                .validateAll()
+                
+             if (!validator.isValid()) {
+                 // ...
+                 return false
+             }
+             return true
+        }
+        //...
+    }
+})
+```
