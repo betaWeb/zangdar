@@ -71,7 +71,7 @@ And.. voilà ! You have a fully functional wizard ! :)
 
 <br>
 
-### Options
+### Options & Events
 
 You can pass an object of options as second class parameter. This is very useful, especially for adding events to the wizard lifecycle.
 
