@@ -1,6 +1,8 @@
 # zangdar
 A JavaScript class to simply generate and handle HTML form wizards.
 
+You can find a very simple [demo](https://codepen.io/betaweb/pen/dLBbbq) at this link.
+
 <br><br>
 
 

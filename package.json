@@ -1,6 +1,6 @@
 {
   "name": "zangdar",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A JavaScript library to simply generate and handle HTML form wizards",
   "main": "index.js",
   "scripts": {
