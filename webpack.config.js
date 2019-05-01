@@ -4,6 +4,7 @@ const webpack = require('webpack')*/
 const buildPath = path.resolve(__dirname, "./dist")
 
 module.exports = {
+    mode: 'production',
     target: "web",
     entry: {
         app: ["./src/index.js"]
