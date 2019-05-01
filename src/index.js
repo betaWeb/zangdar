@@ -7,10 +7,10 @@ class Zangdar {
 
     /**
      *
-     * @type {HTMLElement|null}
+     * @type {NodeListOf|null}
      * @private
      */
-    _$prevButton = null
+    _$prevButtons = null
 
     /**
      *
@@ -179,20 +179,23 @@ class Zangdar {
      * @private
      */
     _buildPrevButton() {
-        this._$prevButton = this.$form.querySelector(this._params.prev_step_selector)
+        this._$prevButtons = this.$form.querySelectorAll(this._params.prev_step_selector)
 
-        if (this._$prevButton === null) {
-            this._$prevButton = document.createElement('button')
-            this._$prevButton.setAttribute('data-prev', '')
-            this._$prevButton.innerText = 'Prev.'
-            this.$form.insertBefore(this._$prevButton, this.$form.firstChild)
+        if (!this._$prevButtons || !this._$prevButtons.length) {
+            const $prevBtn = document.createElement('button')
+            $prevBtn.setAttribute('data-prev', '')
+            $prevBtn.innerText = 'Prev.'
+            this.$form.insertBefore($prevBtn, this.$form.firstChild)
+            this._buildPrevButton()
+        } else {
+            Array.from(this._$prevButtons).forEach(btn => {
+                btn.classList.add(this._params.classes.prev_button)
+                btn.addEventListener('click', e => {
+                    e.preventDefault()
+                    this._prevStep()
+                })
+            })
         }
-
-        this._$prevButton.classList.add(this._params.classes.prev_button)
-        this._$prevButton.addEventListener('click', e => {
-            e.preventDefault()
-            this._prevStep()
-        })
     }
 
     /**
@@ -257,7 +260,17 @@ class Zangdar {
                 step.el.classList.remove(this._params.classes.step_active)
             }
         })
-        this._$prevButton.style.display = this._currentIndex === 0 ? 'none' : ''
+        this._hidePrevBtns()
+    }
+
+    /**
+     * @private
+     */
+    _hidePrevBtns() {
+        if (!this._$prevButtons || !this._$prevButtons.length)
+            this._buildPrevButton()
+        else
+            Array.from(this._$prevButtons).forEach(btn => btn.style.display = this._currentIndex === 0 ? 'none' : '')
     }
 
     /**

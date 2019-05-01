@@ -16,8 +16,6 @@
 
 <h2>Wizard generated from HTML</h2>
 <form id="zangdar-form">
-	<button data-prev>Prec.</button>
-
 	<section data-step="1">
 		<div class="field__name">
 			<label for="name">Nom</label>
@@ -43,6 +41,7 @@
 			<input type="password" id="password_confirm" name="password_confirm" required>
 		</div>
 		<div>
+			<button data-prev>Prec.</button>
 			<button data-next>Suivant</button>
 		</div>
 	</section>
@@ -57,7 +56,10 @@
 				<option value="3">Other</option>
 			</select>
 		</div>
-		<button type="submit">Envoyer</button>
+		<div>
+			<button data-prev>Prec.</button>
+			<button type="submit">Envoyer</button>
+		</div>
 	</section>
 
 </form>

@@ -40,6 +40,7 @@ Here a basic HTML form with sections to separate wizard parts :
         <input type="password" name="password" placeholder="Your password here...">
         <input type="password" name="password_confirm" placeholder="Confirm your password here...">
         
+        <button data-prev>Previous</button>
         <button data-next>Next</button>
     </section>
     
@@ -49,6 +50,7 @@ Here a basic HTML form with sections to separate wizard parts :
         <input type="number" name="zipcode" placeholder="Your zipcode here...">
         <input type="text" name="city" placeholder="Your city here...">
         
+        <button data-prev>Previous</button>
         <button type="submit">Send</button>
     </section>
 </form>
