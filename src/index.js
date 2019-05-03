@@ -77,8 +77,22 @@ class Zangdar {
      * @param {Number} index
      * @returns {Object|null}
      */
-    goTo(index = this._currentIndex) {
+    get(index = this._currentIndex) {
         return this._steps[index] || null
+    }
+
+    /**
+     * Reveal previous step
+     */
+    prev() {
+        this._prevStep()
+    }
+
+    /**
+     * Reveal next step
+     */
+    next() {
+        this._nextStep()
     }
 
     /**
@@ -86,12 +100,12 @@ class Zangdar {
      *
      * @param {String} label
      */
-    goToStep(label) {
+    revealStep(label) {
         const index = this._steps.findIndex(step => step.label === label)
         if (index >= 0) {
             this._revealStep()
         }
-        throw new Error(`[Err] Zangdar.goToStep - step "${label}" not found`)
+        throw new Error(`[Err] Zangdar.revealStep - step "${label}" not found`)
     }
 
     /**
@@ -140,7 +154,7 @@ class Zangdar {
      * @returns {Object|null} the current step if exists, null otherwise
      */
     getCurrentStep() {
-        return this.goTo()
+        return this.get()
     }
 
     _init() {
