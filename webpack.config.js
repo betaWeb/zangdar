@@ -22,8 +22,21 @@ module.exports = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        presets: ['@babel/preset-env'],
-                        plugins: ['@babel/plugin-proposal-class-properties', '@babel/plugin-transform-runtime']
+                        presets: [
+                            ["@babel/preset-env", {
+                                modules: false,
+                                targets: {
+                                    browsers: ["last 2 versions", "safari >= 7", "IE >= 11"]
+                                }
+                            }]
+                        ],
+                        plugins: [
+                            '@babel/plugin-proposal-class-properties',
+                            '@babel/plugin-transform-runtime',
+                            ["@babel/plugin-transform-modules-commonjs", {
+                                "allowTopLevelThis": true
+                            }]
+                        ]
                     }
                 }
             }

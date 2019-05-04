@@ -1,3 +1,5 @@
+const WizardStep = require('./WizardStep')
+
 class Zangdar {
 
     /**
@@ -83,14 +85,23 @@ class Zangdar {
      * Get a step
      *
      * @param {String|Number} key step index or label
-     * @returns {Object|null} finded step if exists, null otherwise
+     * @returns {WizardStep|null} WizardStep instance if exists, null otherwise
      */
     getStep(key) {
         if (key.constructor === String)
-            return this._steps.find(step => step.label === key)
+            return this._steps.find(step => step.labeled(key))
         if (key.constructor === Number)
             return this._steps[key]
         return null
+    }
+
+    /**
+     * Get the current step
+     *
+     * @returns {WizardStep|null} the current WizardStep instance if exists, null otherwise
+     */
+    getCurrentStep() {
+        return this.getStep(this._currentIndex)
     }
 
     /**
@@ -113,7 +124,7 @@ class Zangdar {
      * @param {String} label
      */
     revealStep(label) {
-        const index = this._steps.findIndex(step => step.label === label)
+        const index = this._steps.findIndex(step => step.labeled(label))
         if (index >= 0) {
             this._currentIndex = index
             this._revealStep()
@@ -160,15 +171,6 @@ class Zangdar {
             }
         }
         this._init()
-    }
-
-    /**
-     * Get the current step
-     *
-     * @returns {Object|null} the current step if exists, null otherwise
-     */
-    getCurrentStep() {
-        return this.getStep(this._currentIndex)
     }
 
     _init() {
@@ -224,9 +226,10 @@ class Zangdar {
             throw new Error(`[Err] Zangdar._buildSteps - you must have at least one step (a HTML element with "${this._params.step_selector}" attribute)`)
 
         steps.reduce((acc, item, index) => {
-            const step = item.dataset.step
+            const label = item.dataset.step
+            const isActive = index === this._params.active_step_index
             item.classList.add(this._params.classes.step)
-            if (index === this._params.active_step_index) {
+            if (isActive) {
                 item.classList.add(this._params.classes.step_active)
                 this._currentIndex = index
             }
@@ -242,12 +245,10 @@ class Zangdar {
                 })
             }
 
-            acc.push({
-                el: item,
-                label: step,
-                active: false,
-                errors: {}
-            })
+            const step = new WizardStep(index, item, label, isActive)
+
+            acc.push(step)
+
             return acc
         }, this._steps)
 
@@ -267,9 +268,9 @@ class Zangdar {
         this._steps.forEach((step, i) => {
             step.active = this._currentIndex === i
             if (step.active) {
-                step.el.classList.add(this._params.classes.step_active)
+                step.element.classList.add(this._params.classes.step_active)
             } else {
-                step.el.classList.remove(this._params.classes.step_active)
+                step.element.classList.remove(this._params.classes.step_active)
             }
         })
         this._hidePrevBtns()
@@ -313,24 +314,21 @@ class Zangdar {
      * @private
      */
     _validateCurrentStep() {
-        const currentStep = this._steps[this._currentIndex]
-        const fields = this._formElements(currentStep.el)
+        const currentStep = this.getCurrentStep()
+        const fields = this._formElements(currentStep.element)
         if (this._params.customValidation && this._params.customValidation.constructor === Function) {
             this.$form.setAttribute('novalidate', '')
             return this._params.customValidation(currentStep, fields, this.$form)
         }
         this.$form.removeAttribute('novalidate')
-        currentStep.errors = {}
+        currentStep.clearErrors()
         let isValid = true
         Array.from(fields)
             .reverse()
             .forEach(el => {
                 if (!el.checkValidity()) {
                     isValid = false
-                    if (!currentStep.errors[el.name]) {
-                        currentStep.errors[el.name] = []
-                    }
-                    currentStep.errors[el.name].push(el.validationMessage)
+                    currentStep.addError(el.name, el.validationMessage)
                     el.reportValidity()
                 }
             })

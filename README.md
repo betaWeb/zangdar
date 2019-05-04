@@ -97,9 +97,9 @@ List of events here :
 Name | Type | Default | Parameters | Description
 --- | --- | --- | --- | ---
 **onSubmit** | *Function* | `null` | `{Event} e` | Wizard form custom submit handler (see example below) 
-**onStepChange** | *Function* | `null` | `{Object} step`<br>`{Object} oldStep`<br>`{Number} direction`<br>`{HTMLFormElement} form` | method triggered when a step changes (see example below)
-**onValidation** | *Function* | `null` | `{Object} step`<br>`{NodeListOf} fields`<br>`{HTMLFormElement} form` | method triggered on wizard step HTML validation (see example below)
-**customValidation** | *Function* | `null` | `{Object} step`<br>`{NodeListOf} fields`<br>`{HTMLFormElement} form` | method triggered on wizard step HTML validation (see example below)
+**onStepChange** | *Function* | `null` | `{WizardStep} step`<br>`{Object} oldStep`<br>`{Number} direction`<br>`{HTMLFormElement} form` | method triggered when a step changes (see example below)
+**onValidation** | *Function* | `null` | `{WizardStep} step`<br>`{NodeListOf} fields`<br>`{HTMLFormElement} form` | method triggered on wizard step HTML validation (see example below)
+**customValidation** | *Function* | `null` | `{WizardStep} step`<br>`{NodeListOf} fields`<br>`{HTMLFormElement} form` | method triggered on wizard step HTML validation (see example below)
 
 <br>
 
@@ -121,13 +121,16 @@ const wizard = new Zangdar('#my-form', {
     },
     
     onValidation(step, fields, form) {
+        if (step.hasErrors()) {
+            // ...
+        }
         // Here a treatment after HTML native validation...
     },
     
     customValidation(step, fields, form) {
         // Use the Formr library to validate fields (https://github.com/betaWeb/formr)
         const validator = new Formr(form)
-        if (step.label === '...') {
+        if (step.labeled('...')) {
             validator
                 .required('name', 'email', 'password', 'confirm_password')
                 .string('name', 'email', 'password', 'confirm_password')
