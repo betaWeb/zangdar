@@ -6,14 +6,14 @@ const buildPath = path.resolve(__dirname, "./dist")
 module.exports = {
     mode: 'production',
     target: "web",
-    entry: {
-        app: ["./src/index.js"]
-    },
+    entry: [
+        '@babel/polyfill',
+        "./src/index.js"
+    ],
     output: {
         path: buildPath,
         filename: "zangdar.min.js",
     },
-    devtool: 'inline-source-map',
     module: {
         rules: [
             {
@@ -23,7 +23,7 @@ module.exports = {
                     loader: 'babel-loader',
                     options: {
                         presets: ['@babel/preset-env'],
-                        plugins: ['@babel/plugin-proposal-class-properties']
+                        plugins: ['@babel/plugin-proposal-class-properties', '@babel/plugin-transform-runtime']
                     }
                 }
             }

@@ -281,7 +281,8 @@ class Zangdar {
     _prevStep() {
         const oldStep = this.getCurrentStep()
         this._currentIndex = this._currentIndex - 1 < 0 ? 0 : this._currentIndex - 1
-        this._params.onStepChange(this.getCurrentStep(), oldStep, -1, this.$form)
+        if (this._params.onStepChange && this._params.onStepChange.constructor === Function)
+            this._params.onStepChange(this.getCurrentStep(), oldStep, -1, this.$form)
         this._revealStep()
     }
 
@@ -293,7 +294,8 @@ class Zangdar {
         this._currentIndex = this._currentIndex < this._steps.length - 1
             ? this._currentIndex + 1
             : this._steps.length
-        this._params.onStepChange(this.getCurrentStep(), oldStep, 1, this.$form)
+        if (this._params.onStepChange && this._params.onStepChange.constructor === Function)
+            this._params.onStepChange(this.getCurrentStep(), oldStep, 1, this.$form)
         this._revealStep()
     }
 
@@ -322,7 +324,10 @@ class Zangdar {
                     el.reportValidity()
                 }
             })
-        this._params.onValidation(currentStep, fields, this.$form)
+
+        if (this._params.onValidation && this._params.onValidation.constructor === Function)
+            this._params.onValidation(currentStep, fields, this.$form)
+
         return isValid
     }
 
