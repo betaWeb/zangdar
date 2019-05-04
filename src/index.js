@@ -217,9 +217,6 @@ class Zangdar {
                 this._currentIndex = index
             }
 
-            if (index < steps.length - 1 && !item.querySelector(this._params.next_step_selector))
-                throw new Error(`[Err] Zangdar._buildSteps - step "${step}" - you must have a next button (with "${this._params.next_step_selector}" attribute") on this step`)
-
             if (index < steps.length - 1 && item.querySelector(this._params.next_step_selector)) {
                 const $nextButton = item.querySelector(this._params.next_step_selector)
 
