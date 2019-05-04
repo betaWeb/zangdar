@@ -71,14 +71,26 @@ class Zangdar {
         this._init()
     }
 
+    get currentIndex() {
+        return this._currentIndex
+    }
+
+    get steps() {
+        return this._steps
+    }
+
     /**
-     * Get step by his index
+     * Get a step
      *
-     * @param {Number} index
-     * @returns {Object|null}
+     * @param {String|Number} key step index or label
+     * @returns {Object|null} finded step if exists, null otherwise
      */
-    get(index = this._currentIndex) {
-        return this._steps[index] || null
+    getStep(key) {
+        if (key.constructor === String)
+            return this._steps.find(step => step.label === key)
+        if (key.constructor === Number)
+            return this._steps[key]
+        return null
     }
 
     /**
@@ -103,9 +115,11 @@ class Zangdar {
     revealStep(label) {
         const index = this._steps.findIndex(step => step.label === label)
         if (index >= 0) {
+            this._currentIndex = index
             this._revealStep()
+        } else {
+            throw new Error(`[Err] Zangdar.revealStep - step "${label}" not found`)
         }
-        throw new Error(`[Err] Zangdar.revealStep - step "${label}" not found`)
     }
 
     /**
@@ -129,8 +143,8 @@ class Zangdar {
                     }
                 })
                 if (i < Object.keys(template).length && $section.querySelector(this._params.next_step_selector) === null) {
-                    const $nextButton = document.createElement('button')
-                    $nextButton.setAttribute(this._params.next_step_selector.replace(/\[|\]/ig, ''), '')
+                    let $nextButton = document.createElement('button')
+                    $nextButton = this._appendSelector(this._params.next_step_selector, null, $nextButton)
                     $nextButton.innerText = 'Next'
                     $section.appendChild($nextButton)
                 }
@@ -154,7 +168,7 @@ class Zangdar {
      * @returns {Object|null} the current step if exists, null otherwise
      */
     getCurrentStep() {
-        return this.get()
+        return this.getStep(this._currentIndex)
     }
 
     _init() {
@@ -242,9 +256,8 @@ class Zangdar {
     }
 
     _buildSection(label) {
-        const $section = document.createElement('section')
-        $section.setAttribute(this._params.step_selector.replace(/\[|\]/ig, ''), label)
-        return $section
+        let $section = document.createElement('section')
+        return this._appendSelector(this._params.step_selector, label, $section)
     }
 
     /**
@@ -328,12 +341,44 @@ class Zangdar {
         return isValid
     }
 
-    _formElements(el) {
-        return el.querySelectorAll(`\
+    /**
+     * Get form inputs
+     * @param {HTMLElement} element
+     * @returns {NodeListOf<HTMLElement>}
+     * @private
+     */
+    _formElements(element) {
+        return element.querySelectorAll(`\
             ${this._params.step_selector} input:not([type="hidden"]):not([disabled]),\
             ${this._params.step_selector} select:not([disabled]),\
             ${this._params.step_selector} textarea:not([disabled])\
         `)
+    }
+
+    /**
+     * Append a selector to an element
+     *
+     * @param {String} selector
+     * @param {String|null} value
+     * @param {HTMLElement} element
+     * @returns {HTMLElement}
+     * @private
+     */
+    _appendSelector(selector, value, element) {
+        if (selector.startsWith('.')) {
+            element.classList.add(selector.slice(1))
+        } else if (selector.startsWith('#')) {
+            element.id = selector.slice(1)
+        } else {
+            let matches = selector.match(/^.*\[(?<datakey>[a-zA-Z\-]+)(\=['|"]?(?<dataval>[a-zA-Z0-9\-]+)['|"]?)?\]$/)
+            if (matches && matches.length) {
+                const key = matches.groups.datakey || matches[1] || null
+                const val = value || matches.groups.dataval || matches[3] || ''
+                if (key) element.setAttribute(key, val)
+            }
+
+        }
+        return element
     }
 }
 

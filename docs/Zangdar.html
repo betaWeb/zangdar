@@ -68,9 +68,13 @@
             
             <span class="subtitle">Methods</span>
             
+                <li class="parent  " data-name="Zangdar#_appendSelector"><a href="Zangdar.html#_appendSelector">_appendSelector</a></li>
+            
                 <li class="parent  " data-name="Zangdar#_buildPrevButton"><a href="Zangdar.html#_buildPrevButton">_buildPrevButton</a></li>
             
                 <li class="parent  " data-name="Zangdar#_buildSteps"><a href="Zangdar.html#_buildSteps">_buildSteps</a></li>
+            
+                <li class="parent  " data-name="Zangdar#_formElements"><a href="Zangdar.html#_formElements">_formElements</a></li>
             
                 <li class="parent  " data-name="Zangdar#_hidePrevBtns"><a href="Zangdar.html#_hidePrevBtns">_hidePrevBtns</a></li>
             
@@ -84,9 +88,9 @@
             
                 <li class="parent  " data-name="Zangdar#createFromTemplate"><a href="Zangdar.html#createFromTemplate">createFromTemplate</a></li>
             
-                <li class="parent  " data-name="Zangdar#get"><a href="Zangdar.html#get">get</a></li>
-            
                 <li class="parent  " data-name="Zangdar#getCurrentStep"><a href="Zangdar.html#getCurrentStep">getCurrentStep</a></li>
+            
+                <li class="parent  " data-name="Zangdar#getStep"><a href="Zangdar.html#getStep">getStep</a></li>
             
                 <li class="parent  " data-name="Zangdar#next"><a href="Zangdar.html#next">next</a></li>
             
@@ -522,6 +526,201 @@
             
 <dt>
     <div class="nameContainer">
+        <h4 class="name" id="_appendSelector">
+            <a class="share-icon" href="#_appendSelector"><span class="glyphicon glyphicon-link"></span></a>
+            <span class="">
+                _appendSelector
+            </span>
+            <span class="signature">(selector, value, element)</span><span class="type-signature">HTMLElement</span>
+            
+            <span class="access-signature">private</span>
+            
+            
+        </h4>
+    
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Append a selector to an element</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>selector</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                </td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+|
+
+<span class="param-type">null</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                </td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>element</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">HTMLElement</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                </td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Type</th>
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+        <tr>
+            
+            <td class="type">
+            
+                        HTMLElement
+                        
+                    
+            </td>
+            <td class="description last"></td>
+        </tr>
+    
+    </tbody>
+</table>
+
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
         <h4 class="name" id="_buildPrevButton">
             <a class="share-icon" href="#_buildPrevButton"><span class="glyphicon glyphicon-link"></span></a>
             <span class="">
@@ -649,6 +848,152 @@
     
     
     
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="_formElements">
+            <a class="share-icon" href="#_formElements"><span class="glyphicon glyphicon-link"></span></a>
+            <span class="">
+                _formElements
+            </span>
+            <span class="signature">(element)</span><span class="type-signature">NodeListOf.&lt;HTMLElement></span>
+            
+            <span class="access-signature">private</span>
+            
+            
+        </h4>
+    
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Get form inputs</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>element</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">HTMLElement</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                </td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Type</th>
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+        <tr>
+            
+            <td class="type">
+            
+                        NodeListOf.&lt;HTMLElement>
+                        
+                    
+            </td>
+            <td class="description last"></td>
+        </tr>
+    
+    </tbody>
+</table>
+
     
     
     
@@ -1115,155 +1460,6 @@
             
 <dt>
     <div class="nameContainer">
-        <h4 class="name" id="get">
-            <a class="share-icon" href="#get"><span class="glyphicon glyphicon-link"></span></a>
-            <span class="">
-                get
-            </span>
-            <span class="signature">(index)</span><span class="type-signature">Object | null</span>
-            
-            
-            
-            
-        </h4>
-    
-        
-    </div>
-
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        <p>Get step by his index</p>
-    </div>
-    
-
-    
-    
-    
-    
-    
-        
-
-<table class="params">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-		
-		<th>Type</th>
-		
-		
-		
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	
-	
-        <tr>
-            
-                <td class="name"><code>index</code></td>
-            
-            
-            <td class="type">
-            
-                
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-            
-            
-            
-            <td class="description last">
-                
-                </td>
-        </tr>
-	
-	
-	</tbody>
-</table>
-    
-    
-    
-<dl class="details">
-    
-        
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Type</th>
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-    <tbody>
-    
-        <tr>
-            
-            <td class="type">
-            
-                        Object
-                         | 
-                    
-                        null
-                        
-                    
-            </td>
-            <td class="description last"></td>
-        </tr>
-    
-    </tbody>
-</table>
-
-    
-    
-    
-</dd>
-
-        
-            
-<dt>
-    <div class="nameContainer">
         <h4 class="name" id="getCurrentStep">
             <a class="share-icon" href="#getCurrentStep"><span class="glyphicon glyphicon-link"></span></a>
             <span class="">
@@ -1354,6 +1550,158 @@
                     
             </td>
             <td class="description last">the current step if exists, null otherwise</td>
+        </tr>
+    
+    </tbody>
+</table>
+
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="getStep">
+            <a class="share-icon" href="#getStep"><span class="glyphicon glyphicon-link"></span></a>
+            <span class="">
+                getStep
+            </span>
+            <span class="signature">(key)</span><span class="type-signature">Object | null</span>
+            
+            
+            
+            
+        </h4>
+    
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Get a step</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>key</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+|
+
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                <p>step index or label</p></td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Type</th>
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+        <tr>
+            
+            <td class="type">
+            
+                        Object
+                         | 
+                    
+                        null
+                        
+                    
+            </td>
+            <td class="description last">finded step if exists, null otherwise</td>
         </tr>
     
     </tbody>
@@ -1645,7 +1993,7 @@
 
         <footer class="content-size">
             <div class="footer">
-                Documentation generated by <a target="_blank" href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri May 03 2019 17:40:32 GMT+0200 (CEST)
+                Documentation generated by <a target="_blank" href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat May 04 2019 16:01:12 GMT+0200 (CEST)
             </div>
         </footer>
     </div>

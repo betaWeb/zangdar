@@ -1,10 +1,9 @@
 const path = require('path')
-/*const nodeExternals = require('webpack-node-externals')
-const webpack = require('webpack')*/
 const buildPath = path.resolve(__dirname, "./dist")
+const isDev = process.env.ENV === 'development'
 
 module.exports = {
-    mode: 'production',
+    mode: process.env.ENV || 'production',
     target: "web",
     entry: [
         '@babel/polyfill',
@@ -12,8 +11,9 @@ module.exports = {
     ],
     output: {
         path: buildPath,
-        filename: "zangdar.min.js",
+        filename: `zangdar.min.js`,
     },
+    devtool: isDev ? 'inline-source-map' : false,
     module: {
         rules: [
             {

@@ -1,9 +1,10 @@
 {
   "name": "zangdar",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "A JavaScript library to simply generate and handle HTML form wizards",
   "main": "index.js",
   "scripts": {
+    "dev": "ENV=development ./node_modules/.bin/webpack --config webpack.config.js",
     "build": "./node_modules/.bin/webpack --config webpack.config.js",
     "doc": "jsdoc -p -R README.md -a all -c jsdoc.conf.json"
   },
