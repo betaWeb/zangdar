@@ -8,15 +8,15 @@ deploy ()
     npm run build;
     echo "--- Build application API docs...\n";
     npm run doc;
+    echo "--- Patch npm package version...\n";
+    git add .
+    npm version patch;
     echo "--- Commit "${message}"...\n";
     git add . && git commit -am "$message";
     echo "--- Github deploy...\n";
     git push --tags origin master;
-    echo "--- Patch npm package version...\n";
-    npm version patch;
     echo "--- Publish into npm...\n";
-    version="$(npm view zangdar version)"
-    npm publish --tag "$version"
+    npm publish
 }
 
 read -r -p "Le numéro de version a-t-il bien été incrémenté ? [Y/n] " input
