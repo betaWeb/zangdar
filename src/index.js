@@ -131,10 +131,11 @@ class Zangdar {
      */
     revealStep(label) {
         const index = this._steps.findIndex(step => step.labeled(label))
+        if (index === this._currentIndex) return
         const oldStep = this.getCurrentStep()
         const direction = oldStep.index > index ? -1 : 1
         if (index >= 0) {
-            if (this._validateCurrentStep()) {
+            if (direction < 0 || this._validateCurrentStep()) {
                 this._currentIndex = index
                 this._revealStep()
                 this._onStepChange(oldStep, direction)
