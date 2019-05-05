@@ -9,10 +9,10 @@ deploy ()
     echo "--- Build application API docs...\n";
     npm run doc;
     echo "--- Patch npm package version...\n";
-    git clean -f/-n/-i;
+    git add .;
     npm version patch;
     echo "--- Commit "${message}"...\n";
-    git add . && git commit -am "$message";
+    git add package.json && git commit -am "$message";
     echo "--- Github deploy...\n";
     git push --tags origin master;
     echo "--- Publish into npm...\n";
