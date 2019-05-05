@@ -67,4 +67,5 @@ package-lock.json
 /.idea/*
 /.idea
 
-deploy
+deploy.sh
+/deploy.sh
