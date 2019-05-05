@@ -6,16 +6,15 @@ deploy ()
 {
     echo "--- Build application...\n";
     npm run build;
-    echo "--- Build application API docs...\n";
+    echo "\n--- Build application API docs...\n";
     npm run doc;
-    echo "--- Patch npm package version...\n";
-    git add .
-    npm version patch;
-    echo "--- Commit "${message}"...\n";
+    echo "\n--- Commit "${message}"...\n";
     git add . && git commit -am "$message";
-    echo "--- Github deploy...\n";
+    echo "\n--- Patch npm package version...\n";
+    npm version patch;
+    echo "\n--- Github deploy...\n";
     git push --tags origin master;
-    echo "--- Publish into npm...\n";
+    echo "\n--- Publish into npm...\n";
     npm publish
 }
 
