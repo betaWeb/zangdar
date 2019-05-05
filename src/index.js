@@ -70,6 +70,7 @@ class Zangdar {
             ...options
         }
 
+        this._bindContextOnEvents()
         this._init()
     }
 
@@ -213,7 +214,7 @@ class Zangdar {
      * @private
      */
     _buildForm() {
-        const onSubmit = this._params.onSubmit
+        let onSubmit = this._params.onSubmit
         this.$form.classList.add(this._params.classes.form)
         this.$form.addEventListener('submit', e => {
             if (this._validateCurrentStep()) {
@@ -383,6 +384,14 @@ class Zangdar {
             this._params.onValidation(currentStep, fields, this.$form)
 
         return isValid
+    }
+
+    _bindContextOnEvents() {
+        ['onSubmit', 'onStepChange', 'onValidation', 'customValidation']
+            .forEach(eventName => {
+                if (this._params[eventName] && this._params[eventName].constructor === Function)
+                    this._params[eventName] = this._params[eventName].bind(this)
+            })
     }
 
     /**

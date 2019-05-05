@@ -105,7 +105,6 @@ Name | Type | Default | Parameters | Description
 
 Here there are examples for the events listed above :
 ```JS
-let processedSteps = {}
 const wizard = new Zangdar('#my-form', {
     onSubmit(e) {
         e.preventDefault()
@@ -116,8 +115,7 @@ const wizard = new Zangdar('#my-form', {
     },
     
     onStepChange(step, oldStep, direction, form) {
-        !processedSteps[oldStep.label] && (processedSteps[oldStep.label] = false)
-        processedSteps[oldStep.label] = direction > 0
+        const breadcrumb = this.getBreadcrumb()
     },
     
     onValidation(step, fields, form) {

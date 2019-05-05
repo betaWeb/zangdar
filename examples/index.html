@@ -116,14 +116,14 @@
 
 		const wizard = new Zangdar('#zangdar-form', {
 		    onStepChange() {
-                const breadcrumb = wizard.getBreadcrumb()
+                const breadcrumb = this.getBreadcrumb()
                 buildSteps(breadcrumb)
 			},
 			onSubmit(e) {
 		        e.preventDefault()
-                wizard.getCurrentStep().active = false
-                wizard.getCurrentStep().completed = true
-                const breadcrumb = wizard.getBreadcrumb()
+                this.getCurrentStep().active = false
+                this.getCurrentStep().completed = true
+                const breadcrumb = this.getBreadcrumb()
                 buildSteps(breadcrumb)
 				e.target.style.display = 'none'
 				document.getElementById('form-completed').style.display = 'block'
