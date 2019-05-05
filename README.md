@@ -115,7 +115,7 @@ const wizard = new Zangdar('#my-form', {
     },
     
     onStepChange(step, oldStep, direction, form) {
-        const breadcrumb = this.getBreadcrumb()
+        const breadcrumb = this.getBreadcrumb() // this refers to Zangdar form wizard instance
     },
     
     onValidation(step, fields, form) {

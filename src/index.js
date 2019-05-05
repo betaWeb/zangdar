@@ -4,8 +4,9 @@ class Zangdar {
 
     /**
      * @type {HTMLFormElement}
+     * @private
      */
-    $form = null
+    _$form = null
 
     /**
      *
@@ -54,15 +55,15 @@ class Zangdar {
     }
 
     /**
-     * @param {HTMLFormElement|String} element
+     * @param {HTMLFormElement|String} selector
      * @param {Object} options
      */
-    constructor(element, options = {}) {
-        this.$form = element instanceof HTMLFormElement
-            ? element
-            : document.querySelector(element)
+    constructor(selector, options = {}) {
+        this._$form = selector instanceof HTMLFormElement
+            ? selector
+            : document.querySelector(selector)
 
-        if (this.$form.constructor !== HTMLFormElement)
+        if (this._$form.constructor !== HTMLFormElement)
             throw new Error(`[Err] Zangdar.constructor - the container must be a valid HTML form element`)
 
         this._params = {
@@ -100,6 +101,13 @@ class Zangdar {
         if (key.constructor === Number)
             return this._steps[key]
         return null
+    }
+
+    /**
+     * @returns {HTMLFormElement}
+     */
+    getFormElement() {
+        return this._$form
     }
 
     /**
@@ -159,7 +167,7 @@ class Zangdar {
                 const fields = template[label]
                 const $section = this._buildSection(label)
                 fields.forEach(field => {
-                    const el = this.$form.querySelector(field)
+                    const el = this._$form.querySelector(field)
                     if (el !== null) {
                         const newElm = el.cloneNode(true)
                         $section.appendChild(newElm)
@@ -173,14 +181,14 @@ class Zangdar {
                     $section.appendChild($nextButton)
                 }
                 if (i === Object.keys(template).length) {
-                    const $submitButton = this.$form.querySelector(this._params.submit_selector)
+                    const $submitButton = this._$form.querySelector(this._params.submit_selector)
                     if ($submitButton !== null) {
                         const newBtn = $submitButton.cloneNode(true)
                         $section.appendChild(newBtn)
                         $submitButton.parentNode.removeChild($submitButton)
                     }
                 }
-                this.$form.appendChild($section)
+                this._$form.appendChild($section)
             }
         }
         this._init()
@@ -203,7 +211,7 @@ class Zangdar {
      * @private
      */
     _init() {
-        if (this.$form.querySelectorAll(this._params.step_selector).length) {
+        if (this._$form.querySelectorAll(this._params.step_selector).length) {
             this._buildForm()
             this._buildPrevButton()
             this._buildSteps()
@@ -215,8 +223,8 @@ class Zangdar {
      */
     _buildForm() {
         let onSubmit = this._params.onSubmit
-        this.$form.classList.add(this._params.classes.form)
-        this.$form.addEventListener('submit', e => {
+        this._$form.classList.add(this._params.classes.form)
+        this._$form.addEventListener('submit', e => {
             if (this._validateCurrentStep()) {
                 if (onSubmit && onSubmit.constructor === Function)
                     onSubmit(e)
@@ -229,13 +237,13 @@ class Zangdar {
      * @private
      */
     _buildPrevButton() {
-        this._$prevButtons = this.$form.querySelectorAll(this._params.prev_step_selector)
+        this._$prevButtons = this._$form.querySelectorAll(this._params.prev_step_selector)
 
         if (!this._$prevButtons || !this._$prevButtons.length) {
             const $prevBtn = document.createElement('button')
             $prevBtn.setAttribute('data-prev', '')
             $prevBtn.innerText = 'Prev.'
-            this.$form.insertBefore($prevBtn, this.$form.firstChild)
+            this._$form.insertBefore($prevBtn, this._$form.firstChild)
             this._buildPrevButton()
         } else {
             Array.from(this._$prevButtons).forEach(btn => {
@@ -252,7 +260,7 @@ class Zangdar {
      * @private
      */
     _buildSteps() {
-        let steps = Array.from(this.$form.querySelectorAll(this._params.step_selector))
+        let steps = Array.from(this._$form.querySelectorAll(this._params.step_selector))
 
         if (!steps.length)
             throw new Error(`[Err] Zangdar._buildSteps - you must have at least one step (a HTML element with "${this._params.step_selector}" attribute)`)
@@ -354,7 +362,7 @@ class Zangdar {
      */
     _onStepChange(oldStep, direction) {
         if (this._params.onStepChange && this._params.onStepChange.constructor === Function)
-            this._params.onStepChange(this.getCurrentStep(), oldStep, direction, this.$form)
+            this._params.onStepChange(this.getCurrentStep(), oldStep, direction, this._$form)
     }
 
     /**
@@ -364,10 +372,10 @@ class Zangdar {
         const currentStep = this.getCurrentStep()
         const fields = this._formElements(currentStep.element)
         if (this._params.customValidation && this._params.customValidation.constructor === Function) {
-            this.$form.setAttribute('novalidate', '')
-            return this._params.customValidation(currentStep, fields, this.$form)
+            this._$form.setAttribute('novalidate', '')
+            return this._params.customValidation(currentStep, fields, this._$form)
         }
-        this.$form.removeAttribute('novalidate')
+        this._$form.removeAttribute('novalidate')
         currentStep.clearErrors()
         let isValid = true
         Array.from(fields)
@@ -381,7 +389,7 @@ class Zangdar {
             })
 
         if (this._params.onValidation && this._params.onValidation.constructor === Function)
-            this._params.onValidation(currentStep, fields, this.$form)
+            this._params.onValidation(currentStep, fields, this._$form)
 
         return isValid
     }
