@@ -3,6 +3,9 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Zangdar</title>
+	<link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+	<link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+	<link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
 	<style>
 		.zandgar__wizard .zandgar__step {
 			display: none;
@@ -10,59 +13,70 @@
 		.zandgar__wizard .zandgar__step.zandgar__step__active {
 			display: block;
 		}
+		.form-completed {
+			display: none;
+		}
 	</style>
 </head>
 <body>
+<div class="container">
+	<div class="columns">
+		<div class="col col-mx-auto">
+			<h2>Wizard generated from HTML</h2>
+			<ul id="steps" class="step"></ul>
+			<form id="zangdar-form" class="my-2 py-2">
+				<section data-step="1">
+					<div class="form-group field__name">
+						<label class="form-label" for="name">Nom</label>
+						<input type="text" id="name" name="name" class="form-input" required>
+					</div>
+					<div class="form-group field__email">
+						<label class="form-label" for="email">Email</label>
+						<input type="text" id="email" name="email" class="form-input" required>
+					</div>
 
-<h2>Wizard generated from HTML</h2>
-<form id="zangdar-form">
-	<section data-step="1">
-		<div class="field__name">
-			<label for="name">Nom</label>
-			<input type="text" id="name" name="name" required>
-		</div>
-		<div class="field__email">
-			<label for="email">Email</label>
-			<input type="text" id="email" name="email" required>
-		</div>
+					<div>
+						<button class="btn btn-primary float-right" data-next>Next</button>
+					</div>
+				</section>
 
-		<div>
-			<button data-next>Suivant</button>
-		</div>
-	</section>
+				<section data-step="2">
+					<div class="form-group field__password">
+						<label class="form-label" for="password">Mot de passe</label>
+						<input type="password" id="password" name="password" class="form-input" required>
+					</div>
+					<div class="form-group field__password_confirm">
+						<label class="form-label" for="password_confirm">Confirmer le mot de passe</label>
+						<input type="password" id="password_confirm" name="password_confirm" class="form-input" required>
+					</div>
+					<div>
+						<button class="btn btn-link text-gray" data-prev>Previous</button>
+						<button class="btn btn-primary float-right" data-next>Next</button>
+					</div>
+				</section>
 
-	<section data-step="2">
-		<div class="field__password">
-			<label for="password">Mot de passe</label>
-			<input type="password" id="password" name="password" required>
+				<section data-step="3">
+					<div class="form-group field__genre">
+						<label class="form-label" for="genre">Sélectionner votre genre</label>
+						<select id="genre" name="genre" class="form-select" required>
+							<option value="" disabled selected>Sélectionner...</option>
+							<option value="1">Male</option>
+							<option value="2">Female</option>
+							<option value="3">Other</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<button class="btn btn-link text-gray" data-prev>Previous</button>
+						<button class="btn btn-primary float-right" type="submit">Send</button>
+					</div>
+				</section>
+			</form>
+			<div id="form-completed" class="form-completed text-center">
+				<p class="text-success">Form successfuly sent !</p>
+			</div>
 		</div>
-		<div class="field__password_confirm">
-			<label for="password_confirm">Confirmer le mot de passe</label>
-			<input type="password" id="password_confirm" name="password_confirm" required>
-		</div>
-		<div>
-			<button data-prev>Prec.</button>
-			<button data-next>Suivant</button>
-		</div>
-	</section>
-
-	<section data-step="3">
-		<div class="field__genre">
-			<label for="genre">Sélectionner votre genre</label>
-			<select id="genre" name="genre" required>
-				<option value="" disabled selected>Sélectionner...</option>
-				<option value="1">Male</option>
-				<option value="2">Female</option>
-				<option value="3">Other</option>
-			</select>
-		</div>
-		<div>
-			<button data-prev>Prec.</button>
-			<button type="submit">Envoyer</button>
-		</div>
-	</section>
-
-</form>
+	</div>
+</div>
 
 <hr>
 
@@ -102,14 +116,48 @@
 
 		const wizard = new Zangdar('#zangdar-form', {
 		    onStepChange() {
-                console.log(wizard.getBreadcrumb())
+                const breadcrumb = wizard.getBreadcrumb()
+                buildSteps(breadcrumb)
 			},
 			onSubmit(e) {
 		        e.preventDefault()
-				console.log(e.target)
+                wizard.getCurrentStep().active = false
+                wizard.getCurrentStep().completed = true
+                const breadcrumb = wizard.getBreadcrumb()
+                buildSteps(breadcrumb)
+				e.target.style.display = 'none'
+				document.getElementById('form-completed').style.display = 'block'
 				return false
 			}
 		})
+
+        const buildSteps = steps => {
+            const $steps = document.getElementById('steps')
+            $steps.innerHTML = ''
+            for (let label in steps) {
+                if (steps.hasOwnProperty(label)) {
+                    const $li = document.createElement('li')
+                    const $a = document.createElement('a')
+                    $li.classList.add('step-item')
+                    if (steps[label].active) {
+                        $li.classList.add('active')
+                    }
+                    $a.setAttribute('href', '#')
+                    $a.classList.add('tooltip')
+                    $a.dataset.tooltip = label
+                    $a.innerText = label
+                    $a.addEventListener('click', e => {
+                        e.preventDefault()
+                        wizard.revealStep(label)
+                    })
+                    $li.appendChild($a)
+                    $steps.appendChild($li)
+                }
+            }
+        }
+
+        const breadcrumb = wizard.getBreadcrumb()
+        buildSteps(breadcrumb)
 
         new Zangdar('#zangdar-form-2').createFromTemplate({
             'coords': ['.field__name', '.field__email'],

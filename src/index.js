@@ -131,9 +131,14 @@ class Zangdar {
      */
     revealStep(label) {
         const index = this._steps.findIndex(step => step.labeled(label))
+        const oldStep = this.getCurrentStep()
+        const direction = oldStep.index > index ? -1 : 1
         if (index >= 0) {
-            this._currentIndex = index
-            this._revealStep()
+            if (this._validateCurrentStep()) {
+                this._currentIndex = index
+                this._revealStep()
+                this._onStepChange(oldStep, direction)
+            }
         } else {
             throw new Error(`[Err] Zangdar.revealStep - step "${label}" not found`)
         }
@@ -184,7 +189,10 @@ class Zangdar {
      */
     getBreadcrumb() {
         return this._steps.reduce((acc, step) => {
-            acc[step.label] = step.isComplete()
+            acc[step.label] = {
+                completed: step.isComplete(),
+                active: step.isActive()
+            }
             return acc
         }, {})
     }
@@ -293,7 +301,7 @@ class Zangdar {
      */
     _revealStep() {
         this._steps.forEach((step, i) => {
-            step.active = this._currentIndex === i
+            this._steps[i].active = step.indexed(this._currentIndex)
             if (step.active) {
                 step.element.classList.add(this._params.classes.step_active)
             } else {
@@ -320,9 +328,8 @@ class Zangdar {
         const oldStep = this.getCurrentStep()
         oldStep.completed = false
         this._currentIndex = this._currentIndex - 1 < 0 ? 0 : this._currentIndex - 1
-        if (this._params.onStepChange && this._params.onStepChange.constructor === Function)
-            this._params.onStepChange(this.getCurrentStep(), oldStep, -1, this.$form)
         this._revealStep()
+        this._onStepChange(oldStep, -1)
     }
 
     /**
@@ -334,9 +341,18 @@ class Zangdar {
         this._currentIndex = this._currentIndex < this._steps.length - 1
             ? this._currentIndex + 1
             : this._steps.length
-        if (this._params.onStepChange && this._params.onStepChange.constructor === Function)
-            this._params.onStepChange(this.getCurrentStep(), oldStep, 1, this.$form)
         this._revealStep()
+        this._onStepChange(oldStep, 1)
+    }
+
+    /**
+     * @param {WizardStep} oldStep
+     * @param {Number} direction
+     * @private
+     */
+    _onStepChange(oldStep, direction) {
+        if (this._params.onStepChange && this._params.onStepChange.constructor === Function)
+            this._params.onStepChange(this.getCurrentStep(), oldStep, direction, this.$form)
     }
 
     /**
@@ -412,7 +428,7 @@ class Zangdar {
 
 if (window !== undefined) {
     !window.hasOwnProperty('Zangdar') && (window.Zangdar = Zangdar)
-    if(!HTMLFormElement.prototype.zangdar) {
+    if (!HTMLFormElement.prototype.zangdar) {
         HTMLFormElement.prototype.zangdar = function (options) {
             return new Zangdar(this, options)
         }
