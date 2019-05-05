@@ -42,6 +42,12 @@ class WizardStep {
      */
     errors = {}
 
+    /**
+     * @param {Number} index
+     * @param {HTMLElement} element
+     * @param {String} label
+     * @param {Boolean} active
+     */
     constructor(index, element, label, active = false) {
         this.index = index
         this.element = element
@@ -85,7 +91,7 @@ class WizardStep {
 
     /**
      * @returns {Boolean}
-     * @returns {Step}
+     * @returns {WizardStep}
      */
     hasErrors() {
         return Object.keys(this.errors).length > 0
@@ -102,7 +108,7 @@ class WizardStep {
     }
 
     /**
-     * @returns {Step}
+     * @returns {WizardStep}
      */
     clearErrors() {
         this.errors = {}

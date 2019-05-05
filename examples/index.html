@@ -100,7 +100,16 @@
 <script>
 	document.addEventListener('DOMContentLoaded', () => {
 
-		new Zangdar('#zangdar-form')
+		const wizard = new Zangdar('#zangdar-form', {
+		    onStepChange() {
+                console.log(wizard.getBreadcrumb())
+			},
+			onSubmit(e) {
+		        e.preventDefault()
+				console.log(e.target)
+				return false
+			}
+		})
 
         new Zangdar('#zangdar-form-2').createFromTemplate({
             'coords': ['.field__name', '.field__email'],

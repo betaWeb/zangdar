@@ -38,6 +38,58 @@
     </div>
     <ul class="list">
     
+        <li class="item" data-name="WizardStep">
+            <span class="title  ">
+                
+                <a href="WizardStep.html">WizardStep</a>
+            </span>
+            <ul class="members itemMembers">
+            
+            <span class="subtitle">Members</span>
+            
+                <li class="parent " data-name="WizardStep#active"><a href="WizardStep.html#active">active</a></li>
+            
+                <li class="parent " data-name="WizardStep#completed"><a href="WizardStep.html#completed">completed</a></li>
+            
+                <li class="parent " data-name="WizardStep#element"><a href="WizardStep.html#element">element</a></li>
+            
+                <li class="parent " data-name="WizardStep#errors"><a href="WizardStep.html#errors">errors</a></li>
+            
+                <li class="parent " data-name="WizardStep#index"><a href="WizardStep.html#index">index</a></li>
+            
+                <li class="parent " data-name="WizardStep#label"><a href="WizardStep.html#label">label</a></li>
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="typedefs itemMembers">
+            
+            </ul>
+            <ul class="methods itemMembers">
+            
+            <span class="subtitle">Methods</span>
+            
+                <li class="parent  " data-name="WizardStep#addError"><a href="WizardStep.html#addError">addError</a></li>
+            
+                <li class="parent  " data-name="WizardStep#clearErrors"><a href="WizardStep.html#clearErrors">clearErrors</a></li>
+            
+                <li class="parent  " data-name="WizardStep#hasErrors"><a href="WizardStep.html#hasErrors">hasErrors</a></li>
+            
+                <li class="parent  " data-name="WizardStep#indexed"><a href="WizardStep.html#indexed">indexed</a></li>
+            
+                <li class="parent  " data-name="WizardStep#isActive"><a href="WizardStep.html#isActive">isActive</a></li>
+            
+                <li class="parent  " data-name="WizardStep#isComplete"><a href="WizardStep.html#isComplete">isComplete</a></li>
+            
+                <li class="parent  " data-name="WizardStep#labeled"><a href="WizardStep.html#labeled">labeled</a></li>
+            
+            </ul>
+            <ul class="events itemMembers">
+            
+            </ul>
+        </li>
+    
         <li class="item" data-name="Zangdar">
             <span class="title  ">
                 
@@ -57,6 +109,10 @@
             
                 <li class="parent " data-name="Zangdar#_steps"><a href="Zangdar.html#_steps">_steps</a></li>
             
+                <li class="parent " data-name="Zangdar#currentIndex"><a href="Zangdar.html#currentIndex">currentIndex</a></li>
+            
+                <li class="parent " data-name="Zangdar#steps"><a href="Zangdar.html#steps">steps</a></li>
+            
             </ul>
             <ul class="typedefs itemMembers">
             
@@ -70,13 +126,19 @@
             
                 <li class="parent  " data-name="Zangdar#_appendSelector"><a href="Zangdar.html#_appendSelector">_appendSelector</a></li>
             
+                <li class="parent  " data-name="Zangdar#_buildForm"><a href="Zangdar.html#_buildForm">_buildForm</a></li>
+            
                 <li class="parent  " data-name="Zangdar#_buildPrevButton"><a href="Zangdar.html#_buildPrevButton">_buildPrevButton</a></li>
+            
+                <li class="parent  " data-name="Zangdar#_buildSection"><a href="Zangdar.html#_buildSection">_buildSection</a></li>
             
                 <li class="parent  " data-name="Zangdar#_buildSteps"><a href="Zangdar.html#_buildSteps">_buildSteps</a></li>
             
                 <li class="parent  " data-name="Zangdar#_formElements"><a href="Zangdar.html#_formElements">_formElements</a></li>
             
                 <li class="parent  " data-name="Zangdar#_hidePrevBtns"><a href="Zangdar.html#_hidePrevBtns">_hidePrevBtns</a></li>
+            
+                <li class="parent  " data-name="Zangdar#_init"><a href="Zangdar.html#_init">_init</a></li>
             
                 <li class="parent  " data-name="Zangdar#_nextStep"><a href="Zangdar.html#_nextStep">_nextStep</a></li>
             
@@ -87,6 +149,8 @@
                 <li class="parent  " data-name="Zangdar#_validateCurrentStep"><a href="Zangdar.html#_validateCurrentStep">_validateCurrentStep</a></li>
             
                 <li class="parent  " data-name="Zangdar#createFromTemplate"><a href="Zangdar.html#createFromTemplate">createFromTemplate</a></li>
+            
+                <li class="parent  " data-name="Zangdar#getBreadcrumb"><a href="Zangdar.html#getBreadcrumb">getBreadcrumb</a></li>
             
                 <li class="parent  " data-name="Zangdar#getCurrentStep"><a href="Zangdar.html#getCurrentStep">getCurrentStep</a></li>
             
@@ -270,21 +334,21 @@
 <td><strong>onStepChange</strong></td>
 <td><em>Function</em></td>
 <td><code>null</code></td>
-<td><code>{Step} step</code><br><code>{Object} oldStep</code><br><code>{Number} direction</code><br><code>{HTMLFormElement} form</code></td>
+<td><code>{WizardStep} step</code><br><code>{Object} oldStep</code><br><code>{Number} direction</code><br><code>{HTMLFormElement} form</code></td>
 <td>method triggered when a step changes (see example below)</td>
 </tr>
 <tr>
 <td><strong>onValidation</strong></td>
 <td><em>Function</em></td>
 <td><code>null</code></td>
-<td><code>{Step} step</code><br><code>{NodeListOf} fields</code><br><code>{HTMLFormElement} form</code></td>
+<td><code>{WizardStep} step</code><br><code>{NodeListOf} fields</code><br><code>{HTMLFormElement} form</code></td>
 <td>method triggered on wizard step HTML validation (see example below)</td>
 </tr>
 <tr>
 <td><strong>customValidation</strong></td>
 <td><em>Function</em></td>
 <td><code>null</code></td>
-<td><code>{Step} step</code><br><code>{NodeListOf} fields</code><br><code>{HTMLFormElement} form</code></td>
+<td><code>{WizardStep} step</code><br><code>{NodeListOf} fields</code><br><code>{HTMLFormElement} form</code></td>
 <td>method triggered on wizard step HTML validation (see example below)</td>
 </tr>
 </tbody>
@@ -302,7 +366,7 @@ const wizard = new Zangdar('#my-form', {
     },
 
     onStepChange(step, oldStep, direction, form) {
-        !processedSteps[oldStep.label] && (processedSteps[oldStep.label] = fals
+        !processedSteps[oldStep.label] && (processedSteps[oldStep.label] = false)
         processedSteps[oldStep.label] = direction > 0
     },
 
@@ -316,7 +380,7 @@ const wizard = new Zangdar('#my-form', {
     customValidation(step, fields, form) {
         // Use the Formr library to validate fields (https://github.com/betaWeb/formr)
         const validator = new Formr(form)
-        if (step.labeled('...')) 
+        if (step.labeled('...')) {
             validator
                 .required('name', 'email', 'password', 'confirm_password')
                 .string('name', 'email', 'password', 'confirm_password')
@@ -346,7 +410,7 @@ const wizard = new Zangdar('#my-form', {
 
         <footer class="content-size">
             <div class="footer">
-                Documentation generated by <a target="_blank" href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat May 04 2019 16:57:24 GMT+0200 (CEST)
+                Documentation generated by <a target="_blank" href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun May 05 2019 12:26:01 GMT+0200 (CEST)
             </div>
         </footer>
     </div>

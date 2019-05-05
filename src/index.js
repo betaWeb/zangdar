@@ -73,10 +73,16 @@ class Zangdar {
         this._init()
     }
 
+    /**
+     * @returns {Number}
+     */
     get currentIndex() {
         return this._currentIndex
     }
 
+    /**
+     * @returns {WizardStep[]}
+     */
     get steps() {
         return this._steps
     }
@@ -173,6 +179,19 @@ class Zangdar {
         this._init()
     }
 
+    /**
+     * @returns {Object}
+     */
+    getBreadcrumb() {
+        return this._steps.reduce((acc, step) => {
+            acc[step.label] = step.isComplete()
+            return acc
+        }, {})
+    }
+
+    /**
+     * @private
+     */
     _init() {
         if (this.$form.querySelectorAll(this._params.step_selector).length) {
             this._buildForm()
@@ -181,6 +200,9 @@ class Zangdar {
         }
     }
 
+    /**
+     * @private
+     */
     _buildForm() {
         const onSubmit = this._params.onSubmit
         this.$form.classList.add(this._params.classes.form)
@@ -256,6 +278,11 @@ class Zangdar {
         this._revealStep()
     }
 
+    /**
+     * @param {String} label
+     * @returns {HTMLElement}
+     * @private
+     */
     _buildSection(label) {
         let $section = document.createElement('section')
         return this._appendSelector(this._params.step_selector, label, $section)
@@ -291,6 +318,7 @@ class Zangdar {
      */
     _prevStep() {
         const oldStep = this.getCurrentStep()
+        oldStep.completed = false
         this._currentIndex = this._currentIndex - 1 < 0 ? 0 : this._currentIndex - 1
         if (this._params.onStepChange && this._params.onStepChange.constructor === Function)
             this._params.onStepChange(this.getCurrentStep(), oldStep, -1, this.$form)
@@ -302,6 +330,7 @@ class Zangdar {
      */
     _nextStep() {
         const oldStep = this.getCurrentStep()
+        oldStep.completed = true
         this._currentIndex = this._currentIndex < this._steps.length - 1
             ? this._currentIndex + 1
             : this._steps.length
@@ -368,7 +397,8 @@ class Zangdar {
         } else if (selector.startsWith('#')) {
             element.id = selector.slice(1)
         } else {
-            let matches = selector.match(/^.*\[(?<datakey>[a-zA-Z\-]+)(\=['|"]?(?<dataval>[a-zA-Z0-9\-]+)['|"]?)?\]$/)
+            var re = /^.*\[(?<datakey>[a-zA-Z\@\:\-\.]+)(\=['|"]?(?<dataval>\S+)['|"]?)?\]$/
+            let matches = selector.match(re)
             if (matches && matches.length) {
                 const key = matches.groups.datakey || matches[1] || null
                 const val = value || matches.groups.dataval || matches[3] || ''
