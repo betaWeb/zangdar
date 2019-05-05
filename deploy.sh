@@ -11,7 +11,10 @@ deploy ()
     echo "--- Commit "${message}"...\n";
     git add . && git commit -am "$message";
     echo "--- Github deploy...\n";
-    git push origin master;
+    git push --tags origin master;
+    echo "--- Publish into npm...\n";
+    npm version patch;
+    npm publish;
 }
 
 read -r -p "Le numéro de version a-t-il bien été incrémenté ? [Y/n] " input
