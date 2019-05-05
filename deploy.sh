@@ -2,12 +2,13 @@
 
 deploy ()
 {
+    message=$1
     echo "--- Build application...\n";
     npm run build;
     echo "--- Build application API docs...\n";
     npm run doc;
-    echo "--- Commit "$1"...\n";
-    git add . && git commit -am "$1";
+    echo "--- Commit "${message}"...\n";
+    git add . && git commit -am "$message";
     echo "--- Github deploy...\n";
     git push origin master;
 }
