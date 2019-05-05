@@ -1,8 +1,9 @@
 #!/bin/bash
 
+message=$1
+
 deploy ()
 {
-    message=$1
     echo "--- Build application...\n";
     npm run build;
     echo "--- Build application API docs...\n";
@@ -17,7 +18,7 @@ read -r -p "Le numéro de version a-t-il bien été incrémenté ? [Y/n] " input
 
 case $input in
     [yY][eE][sS]|[yY])
- deploy $1
+ deploy
  ;;
     [nN][oO]|[nN])
  echo "No"
