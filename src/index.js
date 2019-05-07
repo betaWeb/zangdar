@@ -341,15 +341,17 @@ class Zangdar {
      */
     _validateCurrentStep() {
         const currentStep = this.getCurrentStep()
-        const fields = this._formElements(currentStep.element)
+        const fields = Array.from(this._formElements(currentStep.element))
+        const fieldsCollection = fields.reduce((acc, field) => ({...acc, ...{[field.getAttribute('name')]: field}}), {})
         if (this._params.customValidation && this._params.customValidation.constructor === Function) {
             this._$form.setAttribute('novalidate', '')
-            return this._params.customValidation(currentStep, fields, this._$form)
+            return this._params.customValidation(currentStep, fieldsCollection, this._$form)
         }
         this._$form.removeAttribute('novalidate')
         currentStep.clearErrors()
         let isValid = true
-        Array.from(fields)
+        let customValid = true
+        fields
             .reverse()
             .forEach(el => {
                 if (!el.checkValidity()) {
@@ -360,9 +362,9 @@ class Zangdar {
             })
 
         if (this._params.onValidation && this._params.onValidation.constructor === Function)
-            this._params.onValidation(currentStep, fields, this._$form)
+            customValid = this._params.onValidation(currentStep, fieldsCollection, this._$form)
 
-        return isValid
+        return isValid && customValid
     }
 
     _bindContextOnEvents() {

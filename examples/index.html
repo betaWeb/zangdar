@@ -115,9 +115,26 @@
 	document.addEventListener('DOMContentLoaded', () => {
 
 		const wizard = new Zangdar('#zangdar-form', {
-		    onStepChange() {
+		    onStepChange(step) {
                 const breadcrumb = this.getBreadcrumb()
                 buildSteps(breadcrumb)
+			},
+			onValidation(step, fields, form) {
+                if (step.labeled('2')) {
+                    const err_message = form.querySelector('.error__message')
+					if (err_message) {
+                        err_message.parentNode.removeChild(err_message)
+					}
+					if (fields.password.value !== fields.password_confirm.value) {
+					    const err = document.createElement('p')
+						err.classList.add('error__message')
+						err.innerText = 'Les mots de passe doivent être identiques !'
+                        form.insertBefore(err, form.firstChild)
+					    return false
+					}
+					return true
+                }
+                return true
 			},
 			onSubmit(e) {
 		        e.preventDefault()
