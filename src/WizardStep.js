@@ -1,48 +1,6 @@
 class WizardStep {
 
     /**
-     * Step index
-     *
-     * @type {number}
-     */
-    index
-
-    /**
-     * Step HTML element
-     *
-     * @type {HTMLElement}
-     */
-    element
-
-    /**
-     * Step label
-     *
-     * @type {String}
-     */
-    label
-
-    /**
-     * Step status
-     *
-     * @type {boolean}
-     */
-    active = false
-
-    /**
-     * Step completion
-     *
-     * @type {boolean}
-     */
-    completed = false
-
-    /**
-     * Step errors
-     *
-     * @type {Object}
-     */
-    errors = {}
-
-    /**
      * @param {Number} index
      * @param {HTMLElement} element
      * @param {String} label
@@ -53,6 +11,17 @@ class WizardStep {
         this.element = element
         this.label = label
         this.active = active
+        this._completed = false
+        this._errors = {}
+    }
+
+    get completed() {
+        return this._completed
+    }
+
+    set completed(state) {
+        this._completed = state
+        return this
     }
 
     /**
@@ -94,7 +63,7 @@ class WizardStep {
      * @returns {WizardStep}
      */
     hasErrors() {
-        return Object.keys(this.errors).length > 0
+        return Object.keys(this._errors).length > 0
     }
 
     /**
@@ -102,8 +71,8 @@ class WizardStep {
      * @param {String} value
      */
     addError(field, value) {
-        if (!this.errors[field]) this.errors[field] = []
-        this.errors[field].push(value)
+        if (!this._errors[field]) this._errors[field] = []
+        this._errors[field].push(value)
         return this
     }
 
@@ -111,7 +80,7 @@ class WizardStep {
      * @returns {WizardStep}
      */
     clearErrors() {
-        this.errors = {}
+        this._errors = {}
         return this
     }
 }

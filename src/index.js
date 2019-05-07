@@ -1,58 +1,25 @@
 const WizardStep = require('./WizardStep')
 
+const DEFAULT_PARAMS = {
+    step_selector: '[data-step]',
+    prev_step_selector: '[data-prev]',
+    next_step_selector: '[data-next]',
+    submit_selector: '[type="submit"]',
+    active_step_index: 0,
+    classes: {
+        form: 'zandgar__wizard',
+        prev_button: 'zandgar__prev',
+        next_button: 'zandgar__next',
+        step: 'zandgar__step',
+        step_active: 'zandgar__step__active',
+    },
+    onSubmit: null,
+    onStepChange: null,
+    onValidation: null,
+    customValidation: null
+}
+
 class Zangdar {
-
-    /**
-     * @type {HTMLFormElement}
-     * @private
-     */
-    _$form = null
-
-    /**
-     *
-     * @type {NodeListOf|null}
-     * @private
-     */
-    _$prevButtons = null
-
-    /**
-     *
-     * @type {Array}
-     * @private
-     */
-    _steps = []
-
-    /**
-     *
-     * @type {Number|null}
-     * @private
-     */
-    _currentIndex = null
-
-
-    /**
-     * @type {Object}
-     * @type {{step_selector: string, prev_step_selector: string, onStepChange(Object, Object): void, active_step_index: number, onSubmit(Event): boolean, classes: {prev_button: string, next_button: string, form: string, step: string, step_active: string}, next_step_selector: string, customValidation: (function(Object, NodeList): boolean), onValidation(Object, NodeList): void}}
-     * @private
-     */
-    _params = {
-        step_selector: '[data-step]',
-        prev_step_selector: '[data-prev]',
-        next_step_selector: '[data-next]',
-        submit_selector: '[type="submit"]',
-        active_step_index: 0,
-        classes: {
-            form: 'zandgar__wizard',
-            prev_button: 'zandgar__prev',
-            next_button: 'zandgar__next',
-            step: 'zandgar__step',
-            step_active: 'zandgar__step__active',
-        },
-        onSubmit: null,
-        onStepChange: null,
-        onValidation: null,
-        customValidation: null
-    }
 
     /**
      * @param {HTMLFormElement|String} selector
@@ -67,9 +34,13 @@ class Zangdar {
             throw new Error(`[Err] Zangdar.constructor - the container must be a valid HTML form element`)
 
         this._params = {
-            ...this._params,
+            ...DEFAULT_PARAMS,
             ...options
         }
+
+        this._$prevButtons = null
+        this._steps = []
+        this._currentIndex = this._params.active_step_index
 
         this._bindContextOnEvents()
         this._init()
@@ -444,13 +415,15 @@ class Zangdar {
     }
 }
 
-if (window !== undefined) {
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+    module.exports = Zangdar
+}
+
+if (typeof window !== 'undefined' && typeof document !== 'undefined') {
     !window.hasOwnProperty('Zangdar') && (window.Zangdar = Zangdar)
     if (!HTMLFormElement.prototype.zangdar) {
         HTMLFormElement.prototype.zangdar = function (options) {
             return new Zangdar(this, options)
         }
     }
-} else {
-    module.exports = Zangdar
 }

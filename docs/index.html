@@ -45,20 +45,6 @@
             </span>
             <ul class="members itemMembers">
             
-            <span class="subtitle">Members</span>
-            
-                <li class="parent " data-name="WizardStep#active"><a href="WizardStep.html#active">active</a></li>
-            
-                <li class="parent " data-name="WizardStep#completed"><a href="WizardStep.html#completed">completed</a></li>
-            
-                <li class="parent " data-name="WizardStep#element"><a href="WizardStep.html#element">element</a></li>
-            
-                <li class="parent " data-name="WizardStep#errors"><a href="WizardStep.html#errors">errors</a></li>
-            
-                <li class="parent " data-name="WizardStep#index"><a href="WizardStep.html#index">index</a></li>
-            
-                <li class="parent " data-name="WizardStep#label"><a href="WizardStep.html#label">label</a></li>
-            
             </ul>
             <ul class="typedefs itemMembers">
             
@@ -98,16 +84,6 @@
             <ul class="members itemMembers">
             
             <span class="subtitle">Members</span>
-            
-                <li class="parent " data-name="Zangdar#_$form"><a href="Zangdar.html#_$form">_$form</a></li>
-            
-                <li class="parent " data-name="Zangdar#_$prevButtons"><a href="Zangdar.html#_$prevButtons">_$prevButtons</a></li>
-            
-                <li class="parent " data-name="Zangdar#_currentIndex"><a href="Zangdar.html#_currentIndex">_currentIndex</a></li>
-            
-                <li class="parent " data-name="Zangdar#_params"><a href="Zangdar.html#_params">_params</a></li>
-            
-                <li class="parent " data-name="Zangdar#_steps"><a href="Zangdar.html#_steps">_steps</a></li>
             
                 <li class="parent " data-name="Zangdar#currentIndex"><a href="Zangdar.html#currentIndex">currentIndex</a></li>
             
@@ -197,50 +173,63 @@
 
 
     <section>
-        <article class="readme content-size"><h1>zangdar</h1><p>A JavaScript class to simply generate and handle HTML form wizards.</p>
+        <article class="readme content-size"><h1>zangdar</h1>
+<p>A JavaScript class to simply generate and handle HTML form wizards.</p>
 <p>You can find a very simple <a target="_blank" href="https://codepen.io/betaweb/pen/dLBbbq">demo</a> at this link.</p>
 <p><br><br></p>
-<h2>Getting started</h2><h3>Installation</h3><p>To install Zangdar, you just have to download <code>zangdar.min.js</code> in the <code>dist</code> folder and add a script into your HTML page :</p>
-<pre class="prettyprint source lang-HTML"><code>&lt;script src=&quot;path/to/zangdar.min.js&quot;>&lt;/script></code></pre><p>Your have to add this basic CSS to your styles too :</p>
+<h2>Getting started</h2>
+<h3>Installation</h3>
+<p>To install Zangdar, you just have to download <code>zangdar.min.js</code> in the <code>dist</code> folder and add a script into your HTML page :</p>
+<pre class="prettyprint source lang-HTML"><code>&lt;script src=&quot;path/to/zangdar.min.js&quot;>&lt;/script>
+</code></pre>
+<p>Your have to add this basic CSS to your styles too :</p>
 <pre class="prettyprint source lang-CSS"><code>.zandgar__wizard .zandgar__step {
     display: none;
 }
 .zandgar__wizard .zandgar__step.zandgar__step__active {
     display: block;
-}</code></pre><p><br></p>
-<h3>Basic usage</h3><p>Here a basic HTML form with sections to separate wizard parts :</p>
+}
+</code></pre>
+<br>
+<h3>Basic usage</h3>
+<p>Here a basic HTML form with sections to separate wizard parts :</p>
 <pre class="prettyprint source lang-HTML"><code>&lt;form id=&quot;my-form&quot;>
     &lt;section data-step=&quot;coords&quot;>
         &lt;input type=&quot;text&quot; name=&quot;name&quot; placeholder=&quot;Your name here...&quot;>
         &lt;input type=&quot;text&quot; name=&quot;email&quot; placeholder=&quot;Your email here...&quot;>
-
+        
         &lt;button data-next>Next&lt;/button>
     &lt;/section>
-
+    
     &lt;section data-step=&quot;security&quot;>
         &lt;input type=&quot;password&quot; name=&quot;password&quot; placeholder=&quot;Your password here...&quot;>
         &lt;input type=&quot;password&quot; name=&quot;password_confirm&quot; placeholder=&quot;Confirm your password here...&quot;>
-
+        
         &lt;button data-prev>Previous&lt;/button>
         &lt;button data-next>Next&lt;/button>
     &lt;/section>
-
+    
     &lt;section data-step=&quot;personal&quot;>
         &lt;input type=&quot;date&quot; name=&quot;birthdate&quot; placeholder=&quot;Your birthdate...&quot;>
         &lt;input type=&quot;text&quot; name=&quot;addresss&quot; placeholder=&quot;Your address here...&quot;>
         &lt;input type=&quot;number&quot; name=&quot;zipcode&quot; placeholder=&quot;Your zipcode here...&quot;>
         &lt;input type=&quot;text&quot; name=&quot;city&quot; placeholder=&quot;Your city here...&quot;>
-
+        
         &lt;button data-prev>Previous&lt;/button>
         &lt;button type=&quot;submit&quot;>Send&lt;/button>
     &lt;/section>
-&lt;/form></code></pre><p><br></p>
+&lt;/form>
+</code></pre>
+<br>
 <p>And you just have to instanciate Zandgar with the selector of the form you wan't to handle :</p>
 <pre class="prettyprint source lang-JS"><code>document.addEventListener('DOMContentLoaded', () => {
     const wizard = new Zangdar('#my-form')
-})</code></pre><p>And.. voilà ! You have a fully functional wizard ! :)</p>
-<p><br></p>
-<h3>Options &amp; Events</h3><p>You can pass an object of options as second class parameter. This is very useful, especially for adding events to the wizard lifecycle.</p>
+})
+</code></pre>
+<p>And.. voilà ! You have a fully functional wizard ! :)</p>
+<br>
+<h3>Options &amp; Events</h3>
+<p>You can pass an object of options as second class parameter. This is very useful, especially for adding events to the wizard lifecycle.</p>
 <p>List of properties here :</p>
 <table>
 <thead>
@@ -314,7 +303,7 @@
 </tr>
 </tbody>
 </table>
-<p><br></p>
+<br>
 <p>List of events here :</p>
 <table>
 <thead>
@@ -332,7 +321,7 @@
 <td><em>Function</em></td>
 <td><code>null</code></td>
 <td><code>{Event} e</code></td>
-<td>Wizard form custom submit handler (see example below) </td>
+<td>Wizard form custom submit handler (see example below)</td>
 </tr>
 <tr>
 <td><strong>onStepChange</strong></td>
@@ -357,28 +346,28 @@
 </tr>
 </tbody>
 </table>
-<p><br></p>
+<br>
 <p>Here there are examples for the events listed above :</p>
 <pre class="prettyprint source lang-JS"><code>const wizard = new Zangdar('#my-form', {
     onSubmit(e) {
         e.preventDefault()
-
+        
         // Ajax call, custom form processing or anything you wan't to do here...
-
+        
         return false
     },
-
+    
     onStepChange(step, oldStep, direction, form) {
         const breadcrumb = this.getBreadcrumb() // this refers to Zangdar form wizard instance
     },
-
+    
     onValidation(step, fields, form) {
         if (step.hasErrors()) {
             // ...
         }
         // Here a treatment after HTML native validation...
     },
-
+    
     customValidation(step, fields, form) {
         // Use the Formr library to validate fields (https://github.com/betaWeb/formr)
         const validator = new Formr(form)
@@ -391,7 +380,7 @@
                 .length('confirm_password', 3, 20)
                 .same('password', 'confirm_password')
                 .validateAll()
-
+                
              if (!validator.isValid()) {
                  // ...
                  return false
@@ -400,7 +389,8 @@
         }
         //...
     }
-})</code></pre></article>
+})
+</code></pre></article>
     </section>
 
 
@@ -412,7 +402,7 @@
 
         <footer class="content-size">
             <div class="footer">
-                Documentation generated by <a target="_blank" href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun May 05 2019 18:33:44 GMT+0200 (CEST)
+                Documentation generated by <a target="_blank" href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.1</a> on Tue May 07 2019 14:01:48 GMT+0200 (CEST)
             </div>
         </footer>
     </div>
