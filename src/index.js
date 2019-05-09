@@ -1,5 +1,9 @@
 const WizardStep = require('./WizardStep')
 
+if ((typeof global !== 'undefined' && !global._babelPolyfill) || (typeof window !== 'undefined' && !window._babelPolyfill)) {
+    require('@babel/polyfill')
+}
+
 const DEFAULT_PARAMS = {
     step_selector: '[data-step]',
     prev_step_selector: '[data-prev]',

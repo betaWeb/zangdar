@@ -6,7 +6,7 @@ module.exports = {
     mode: process.env.ENV || 'production',
     target: "web",
     entry: [
-        '@babel/polyfill',
+        // '@babel/polyfill',
         "./src/index.js"
     ],
     output: {
