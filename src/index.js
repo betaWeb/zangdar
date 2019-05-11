@@ -1,7 +1,7 @@
 const WizardStep = require('./WizardStep')
+const {appendSelector, prependPolyfills, uuid, isBrowserSide, isServerSide} = require('./Utils')
 
-if ((typeof global !== 'undefined' && !global._babelPolyfill) || (typeof window !== 'undefined' && !window._babelPolyfill))
-    require('@babel/polyfill')
+prependPolyfills()
 
 const DEFAULT_PARAMS = {
     step_selector: '[data-step]',
@@ -9,6 +9,7 @@ const DEFAULT_PARAMS = {
     next_step_selector: '[data-next]',
     submit_selector: '[type="submit"]',
     active_step_index: 0,
+    unique_id_prefix: 'zangdar_form_',
     classes: {
         form: 'zandgar__wizard',
         prev_button: 'zandgar__prev',
@@ -44,12 +45,15 @@ class Zangdar {
         this._$prevButtons = null
         this._steps = []
         this._currentIndex = this._params.active_step_index
+        this._uuid = this._params.unique_id_prefix + uuid()
 
-        this._bindContextOnEvents()
+        this._bindEventsContext()
         this._init()
     }
 
     /**
+     * Returns current step index
+     *
      * @returns {Number}
      */
     get currentIndex() {
@@ -57,10 +61,21 @@ class Zangdar {
     }
 
     /**
+     * Returns all wizard steps
+     *
      * @returns {WizardStep[]}
      */
     get steps() {
         return this._steps
+    }
+
+    /**
+     * Returns form unique ID
+     *
+     * @returns {String}
+     */
+    get uniqueId() {
+        return this._uuid
     }
 
     /**
@@ -80,6 +95,8 @@ class Zangdar {
     }
 
     /**
+     * Get wizard HTML form element
+     *
      * @returns {HTMLFormElement}
      */
     getFormElement() {
@@ -97,45 +114,61 @@ class Zangdar {
 
     /**
      * Reveal previous step
+     *
+     * @fluent
+     * @returns {Zangdar}
      */
     prev() {
         this._prevStep()
+
+        return this
     }
 
     /**
      * Reveal next step
+     *
+     * @fluent
+     * @returns {Zangdar}
      */
     next() {
         this._nextStep()
+
+        return this
     }
 
     /**
      * Go to a step by label (data-step attribute value)
      *
+     * @fluent
      * @param {String} label
+     * @returns {Zangdar}
      */
     revealStep(label) {
         const index = this._steps.findIndex(step => step.labeled(label))
 
-        if (index === this._currentIndex) return
+        if (index !== this._currentIndex) {
+            const oldStep = this.getCurrentStep()
+            const direction = oldStep.index > index ? -1 : 1
 
-        const oldStep = this.getCurrentStep()
-        const direction = oldStep.index > index ? -1 : 1
+            if (index >= 0) {
+                if (direction < 0 || this._validateCurrentStep()) {
+                    this._currentIndex = index
+                    this._revealStep()
+                    this._onStepChange(oldStep, direction)
+                }
+            } else
+                throw new Error(`[Err] Zangdar.revealStep - step "${label}" not found`)
+        }
 
-        if (index >= 0) {
-            if (direction < 0 || this._validateCurrentStep()) {
-                this._currentIndex = index
-                this._revealStep()
-                this._onStepChange(oldStep, direction)
-            }
-        } else
-            throw new Error(`[Err] Zangdar.revealStep - step "${label}" not found`)
+        return this
     }
 
     /**
      * Create a wizard from an existing form with a template which is describes it
      *
+     * @fluent
      * @param {Object} template the wizard template
+     * @returns {Zangdar}
      */
     createFromTemplate(template) {
         let i = 0
@@ -157,7 +190,7 @@ class Zangdar {
 
                 if (i < Object.keys(template).length && $section.querySelector(this._params.next_step_selector) === null) {
                     let $nextButton = document.createElement('button')
-                    $nextButton = this._appendSelector(this._params.next_step_selector, null, $nextButton)
+                    $nextButton = appendSelector(this._params.next_step_selector, null, $nextButton)
                     $nextButton.innerText = 'Next'
                     $section.appendChild($nextButton)
                 }
@@ -176,6 +209,8 @@ class Zangdar {
         }
 
         this._init()
+
+        return this
     }
 
     /**
@@ -209,6 +244,10 @@ class Zangdar {
     _buildForm() {
         let onSubmit = this._params.onSubmit
         this._$form.classList.add(this._params.classes.form)
+        this._$form.dataset.wizard = this._uuid
+
+        !this._$form.hasAttribute('name') && (this._$form.setAttribute('name', this._uuid))
+
         this._$form.addEventListener('submit', e => {
             if (this._validateCurrentStep()) {
                 if (onSubmit && onSubmit.constructor === Function)
@@ -290,7 +329,7 @@ class Zangdar {
     _buildSection(label) {
         let $section = document.createElement('section')
 
-        return this._appendSelector(this._params.step_selector, label, $section)
+        return appendSelector(this._params.step_selector, label, $section)
     }
 
     /**
@@ -373,63 +412,19 @@ class Zangdar {
         return isValid && customValid
     }
 
-    _bindContextOnEvents() {
+    _bindEventsContext() {
         ['onSubmit', 'onStepChange', 'onValidation', 'customValidation']
             .forEach(eventName => {
                 if (this._params[eventName] && this._params[eventName].constructor === Function)
                     this._params[eventName] = this._params[eventName].bind(this)
             })
     }
-
-    /**
-     * Get form inputs
-     *
-     * @param {HTMLElement} element
-     * @returns {NodeListOf<HTMLElement>}
-     * @private
-     */
-    _formElements(element) {
-        return element.querySelectorAll(`\
-            ${this._params.step_selector} input:not([type="hidden"]):not([disabled]),\
-            ${this._params.step_selector} select:not([disabled]),\
-            ${this._params.step_selector} textarea:not([disabled])\
-        `)
-    }
-
-    /**
-     * Append a selector to an element
-     *
-     * @param {String} selector
-     * @param {String|null} value
-     * @param {HTMLElement} element
-     * @returns {HTMLElement}
-     * @private
-     */
-    _appendSelector(selector, value, element) {
-        if (selector.startsWith('.'))
-            element.classList.add(selector.slice(1))
-        else if (selector.startsWith('#'))
-            element.id = selector.slice(1)
-        else {
-            var re = /^.*\[(?<datakey>[a-zA-Z\@\:\-\.]+)(\=['|"]?(?<dataval>\S+)['|"]?)?\]$/
-            let matches = selector.match(re)
-
-            if (matches && matches.length) {
-                const key = matches.groups.datakey || matches[1] || null
-                const val = value || matches.groups.dataval || matches[3] || ''
-
-                if (key) element.setAttribute(key, val)
-            }
-        }
-
-        return element
-    }
 }
 
-if (typeof module !== 'undefined' && typeof module.exports !== 'undefined')
+if (isServerSide)
     module.exports = Zangdar
 
-if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+if (isBrowserSide) {
     !window.hasOwnProperty('Zangdar') && (window.Zangdar = Zangdar)
 
     if (!HTMLFormElement.prototype.zangdar)

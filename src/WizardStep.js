@@ -1,3 +1,5 @@
+const {getFormElements} = require('./Utils')
+
 class WizardStep {
 
     /**
@@ -22,6 +24,11 @@ class WizardStep {
         return this._completed
     }
 
+    /**
+     * @fluent
+     * @param {Boolean} state
+     * @return {WizardStep}
+     */
     set completed(state) {
         this._completed = state
 
@@ -66,6 +73,11 @@ class WizardStep {
         return this.completed === true
     }
 
+    /**
+     * Validate a step (HTML5 native validation)
+     *
+     * @return {boolean}
+     */
     validate() {
         this.clearErrors()
         let isValid = true
@@ -116,17 +128,14 @@ class WizardStep {
      * @private
      */
     _setFields() {
-        this._fields = Array.from(this.element.querySelectorAll(`\
-            input:not([type="hidden"]):not([disabled]),\
-            select:not([disabled]),\
-            textarea:not([disabled])\
-        `)).reduce((acc, field) => {
-            const name = field.getAttribute('name')
-            if (name)
-                return {...acc, ...{[name]: field}}
+        this._fields = getFormElements(this.element, true)
+            .reduce((acc, field) => {
+                const name = field.getAttribute('name')
+                if (name)
+                    return {...acc, ...{[name]: field}}
 
-            return acc
-        }, {})
+                return acc
+            }, {})
     }
 }
 
