@@ -13,6 +13,9 @@ class WizardStep {
         this.active = active
         this._completed = false
         this._errors = {}
+        this._fields = {}
+
+        this._setFields()
     }
 
     get completed() {
@@ -21,7 +24,12 @@ class WizardStep {
 
     set completed(state) {
         this._completed = state
+
         return this
+    }
+
+    get fields() {
+        return this._fields
     }
 
     /**
@@ -58,6 +66,23 @@ class WizardStep {
         return this.completed === true
     }
 
+    validate() {
+        this.clearErrors()
+        let isValid = true
+
+        Object.values(this._fields)
+            .reverse()
+            .forEach(el => {
+                if (!el.checkValidity()) {
+                    isValid = false
+                    this.addError(el.name, el.validationMessage)
+                    el.reportValidity()
+                }
+            })
+
+        return isValid
+    }
+
     /**
      * @returns {Boolean}
      * @returns {WizardStep}
@@ -72,7 +97,9 @@ class WizardStep {
      */
     addError(field, value) {
         if (!this._errors[field]) this._errors[field] = []
+
         this._errors[field].push(value)
+
         return this
     }
 
@@ -81,7 +108,25 @@ class WizardStep {
      */
     clearErrors() {
         this._errors = {}
+
         return this
+    }
+
+    /**
+     * @private
+     */
+    _setFields() {
+        this._fields = Array.from(this.element.querySelectorAll(`\
+            input:not([type="hidden"]):not([disabled]),\
+            select:not([disabled]),\
+            textarea:not([disabled])\
+        `)).reduce((acc, field) => {
+            const name = field.getAttribute('name')
+            if (name)
+                return {...acc, ...{[name]: field}}
+
+            return acc
+        }, {})
     }
 }
 

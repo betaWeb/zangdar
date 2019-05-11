@@ -1,8 +1,7 @@
 const WizardStep = require('./WizardStep')
 
-if ((typeof global !== 'undefined' && !global._babelPolyfill) || (typeof window !== 'undefined' && !window._babelPolyfill)) {
+if ((typeof global !== 'undefined' && !global._babelPolyfill) || (typeof window !== 'undefined' && !window._babelPolyfill))
     require('@babel/polyfill')
-}
 
 const DEFAULT_PARAMS = {
     step_selector: '[data-step]',
@@ -73,8 +72,10 @@ class Zangdar {
     getStep(key) {
         if (key.constructor === String)
             return this._steps.find(step => step.labeled(key))
+
         if (key.constructor === Number)
             return this._steps[key]
+
         return null
     }
 
@@ -115,18 +116,20 @@ class Zangdar {
      */
     revealStep(label) {
         const index = this._steps.findIndex(step => step.labeled(label))
+
         if (index === this._currentIndex) return
+
         const oldStep = this.getCurrentStep()
         const direction = oldStep.index > index ? -1 : 1
+
         if (index >= 0) {
             if (direction < 0 || this._validateCurrentStep()) {
                 this._currentIndex = index
                 this._revealStep()
                 this._onStepChange(oldStep, direction)
             }
-        } else {
+        } else
             throw new Error(`[Err] Zangdar.revealStep - step "${label}" not found`)
-        }
     }
 
     /**
@@ -138,25 +141,30 @@ class Zangdar {
         let i = 0
         for (let label in template) {
             ++i
+
             if (template.hasOwnProperty(label)) {
                 const fields = template[label]
                 const $section = this._buildSection(label)
                 fields.forEach(field => {
                     const el = this._$form.querySelector(field)
+
                     if (el !== null) {
                         const newElm = el.cloneNode(true)
                         $section.appendChild(newElm)
                         el.parentNode.removeChild(el)
                     }
                 })
+
                 if (i < Object.keys(template).length && $section.querySelector(this._params.next_step_selector) === null) {
                     let $nextButton = document.createElement('button')
                     $nextButton = this._appendSelector(this._params.next_step_selector, null, $nextButton)
                     $nextButton.innerText = 'Next'
                     $section.appendChild($nextButton)
                 }
+
                 if (i === Object.keys(template).length) {
                     const $submitButton = this._$form.querySelector(this._params.submit_selector)
+
                     if ($submitButton !== null) {
                         const newBtn = $submitButton.cloneNode(true)
                         $section.appendChild(newBtn)
@@ -166,6 +174,7 @@ class Zangdar {
                 this._$form.appendChild($section)
             }
         }
+
         this._init()
     }
 
@@ -178,6 +187,7 @@ class Zangdar {
                 completed: step.isComplete(),
                 active: step.isActive()
             }
+
             return acc
         }, {})
     }
@@ -244,6 +254,7 @@ class Zangdar {
             const label = item.dataset.step
             const isActive = index === this._params.active_step_index
             item.classList.add(this._params.classes.step)
+
             if (isActive) {
                 item.classList.add(this._params.classes.step_active)
                 this._currentIndex = index
@@ -278,6 +289,7 @@ class Zangdar {
      */
     _buildSection(label) {
         let $section = document.createElement('section')
+
         return this._appendSelector(this._params.step_selector, label, $section)
     }
 
@@ -287,11 +299,10 @@ class Zangdar {
     _revealStep() {
         this._steps.forEach((step, i) => {
             this._steps[i].active = step.indexed(this._currentIndex)
-            if (step.active) {
+            if (step.active)
                 step.element.classList.add(this._params.classes.step_active)
-            } else {
+            else
                 step.element.classList.remove(this._params.classes.step_active)
-            }
         })
         this._hidePrevBtns()
     }
@@ -345,28 +356,19 @@ class Zangdar {
      */
     _validateCurrentStep() {
         const currentStep = this.getCurrentStep()
-        const fields = Array.from(this._formElements(currentStep.element))
-        const fieldsCollection = fields.reduce((acc, field) => ({...acc, ...{[field.getAttribute('name')]: field}}), {})
+
         if (this._params.customValidation && this._params.customValidation.constructor === Function) {
             this._$form.setAttribute('novalidate', '')
-            return this._params.customValidation(currentStep, fieldsCollection, this._$form)
+
+            return this._params.customValidation(currentStep, currentStep.fields, this._$form)
         }
+
         this._$form.removeAttribute('novalidate')
-        currentStep.clearErrors()
-        let isValid = true
+        const isValid = currentStep.validate()
         let customValid = true
-        fields
-            .reverse()
-            .forEach(el => {
-                if (!el.checkValidity()) {
-                    isValid = false
-                    currentStep.addError(el.name, el.validationMessage)
-                    el.reportValidity()
-                }
-            })
 
         if (this._params.onValidation && this._params.onValidation.constructor === Function)
-            customValid = this._params.onValidation(currentStep, fieldsCollection, this._$form)
+            customValid = this._params.onValidation(currentStep, currentStep.fields, this._$form)
 
         return isValid && customValid
     }
@@ -381,6 +383,7 @@ class Zangdar {
 
     /**
      * Get form inputs
+     *
      * @param {HTMLElement} element
      * @returns {NodeListOf<HTMLElement>}
      * @private
@@ -403,33 +406,34 @@ class Zangdar {
      * @private
      */
     _appendSelector(selector, value, element) {
-        if (selector.startsWith('.')) {
+        if (selector.startsWith('.'))
             element.classList.add(selector.slice(1))
-        } else if (selector.startsWith('#')) {
+        else if (selector.startsWith('#'))
             element.id = selector.slice(1)
-        } else {
+        else {
             var re = /^.*\[(?<datakey>[a-zA-Z\@\:\-\.]+)(\=['|"]?(?<dataval>\S+)['|"]?)?\]$/
             let matches = selector.match(re)
+
             if (matches && matches.length) {
                 const key = matches.groups.datakey || matches[1] || null
                 const val = value || matches.groups.dataval || matches[3] || ''
+
                 if (key) element.setAttribute(key, val)
             }
-
         }
+
         return element
     }
 }
 
-if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined')
     module.exports = Zangdar
-}
 
 if (typeof window !== 'undefined' && typeof document !== 'undefined') {
     !window.hasOwnProperty('Zangdar') && (window.Zangdar = Zangdar)
-    if (!HTMLFormElement.prototype.zangdar) {
+
+    if (!HTMLFormElement.prototype.zangdar)
         HTMLFormElement.prototype.zangdar = function (options) {
             return new Zangdar(this, options)
         }
-    }
 }
