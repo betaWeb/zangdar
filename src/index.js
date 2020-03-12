@@ -84,16 +84,21 @@ class Zangdar {
 
 	/**
 	 * Refresh wizard instance
-	 * 
+	 *
+	 * @fluent 
 	 * @returns {Zangdar}
 	 */
 	refresh() {
 		this._buildPrevButton()
-		this._buildSteps(true)
+		this._buildSteps()
 
 		return this
 	}
 
+	/**
+	 * Destroys wizard instance
+	 * @todo
+	 */
 	destroy() {
 		try {
 			if (this._params.prev_step_selector !== false) {
@@ -101,9 +106,8 @@ class Zangdar {
 					btn.removeEventListener('click', this._onPrevStep)
 				})
 			}
-
 		} catch (e) {
-			console.error('Cannot removeEventListener on prev buttons', e.message)
+			console.error(`[Err] Zangdar.destroy - Cannot remove Event Listeners on prev buttons - ${e.message}`)
 		}
 
 		try {
@@ -113,13 +117,13 @@ class Zangdar {
 				})
 			}
 		} catch (e) {
-			console.error('Cannot removeEventListener on next buttons', e.message)
+			console.error(`[Err] Zangdar.destroy - Cannot remove Event Listeners on next buttons - ${e.message}`)
 		}
 
 		try {
 			this._$form.removeEventListener('submit', this._onSubmit)
 		} catch (e) {
-			console.error('Cannot removeEventListener on form submit buttons', e.message)
+			console.error(`[Err] Zangdar.destroy - Cannot remove Event Listeners on form submit buttons - ${e.message}`)
 		}
 	}
 
@@ -142,7 +146,7 @@ class Zangdar {
 	/**
 	 * Get wizard HTML form element
 	 *
-	 * @returns {HTMLFormElement|Element}
+	 * @returns {HTMLFormElement}
 	 */
 	getFormElement() {
 		return this._$form
@@ -182,30 +186,56 @@ class Zangdar {
 	}
 
 	/**
+	 * @param {String} key 
+	 * @param {*} value
+	 *
+	 * @fluent
+	 * @returns {Zangdar}
+	 */
+	setOption(key, value) {
+		if (key in this._params)
+			this._params[key] = value
+
+		return this
+	}
+
+	/**
 	 * Go to a step by label (data-step attribute value)
 	 *
 	 * @fluent
-	 * @param {String} label
+	 * @param {String|Number|WizardStep} value
+	 * 
 	 * @returns {Zangdar}
 	 */
-	revealStep(label) {
-		const index = this._steps.findIndex(step => step.labeled(label))
+	revealStep(value) {
+		try {
+			let index = null
 
-		if (index !== this._currentIndex) {
-			const oldStep = this.getCurrentStep()
-			const direction = oldStep.index > index ? -1 : 1
+			if (value.constructor === String)
+				index = this._steps.findIndex(step => step.labeled(value))
+			else if (value instanceof WizardStep)
+				index = value.index
+			else if (value.constructor === Number)
+				index = value
 
-			if (index >= 0) {
+			if (index === undefined || index === null || index < 0)
+				index = 0
+
+			if (index !== this._currentIndex) {
+				const oldStep = this.getCurrentStep()
+				const direction = oldStep.index > index ? -1 : 1
+
 				if (direction < 0 || this._validateCurrentStep()) {
 					this._currentIndex = index
 					this._revealStep()
 					this._onStepChange(oldStep, direction)
 				}
-			} else
-				throw new Error(`[Err] Zangdar.revealStep - step "${label}" not found`)
-		}
+			}
 
-		return this
+			return this
+		} catch (e) {
+			throw new Error(`[Err] Zangdar.revealStep - Cannot found step :: ${e.message}`)
+		}
 	}
 
 	/**
@@ -213,6 +243,7 @@ class Zangdar {
 	 *
 	 * @fluent
 	 * @param {Object} template the wizard template
+	 * 
 	 * @returns {Zangdar}
 	 */
 	createFromTemplate(template) {
@@ -240,7 +271,7 @@ class Zangdar {
 					$section.appendChild($nextButton)
 				}
 
-				if (i === Object.keys(template).length) {
+				if (i === Object.keys(template).length && this._params.submit_selector !== false) {
 					const $submitButton = this._$form.querySelector(this._params.submit_selector)
 
 					if ($submitButton !== null) {
@@ -317,10 +348,10 @@ class Zangdar {
 		}
 	}
 
-	/**
+	/** 
 	 * @private
 	 */
-	_buildSteps(preserve_current_step = false) {
+	_buildSteps() {
 		let steps = Array.from(this._$form.querySelectorAll(this._params.step_selector))
 
 		if (!steps.length)
@@ -338,8 +369,7 @@ class Zangdar {
 			return acc
 		}, [])
 
-		if (!preserve_current_step)
-			this._currentIndex = this._params.active_step_index
+		this._currentIndex = this._params.active_step_index
 
 		this._revealStep()
 	}
@@ -347,6 +377,7 @@ class Zangdar {
 	/**
 	 * @param {String} label
 	 * @returns {Element}
+	 * 
 	 * @private
 	 */
 	_buildSection(label) {
@@ -355,9 +386,16 @@ class Zangdar {
 		return appendSelector(this._params.step_selector, label, $section)
 	}
 
+	/**
+	 * @param {Object} item
+	 * @param {Number} index
+	 * 
+	 * @private
+	 */
 	_buildStep(item, index) {
 		const label = item.dataset.step
 		const isActive = index === this._params.active_step_index
+
 		item.classList.add(this._params.classes.step)
 
 		if (isActive) {
@@ -389,7 +427,9 @@ class Zangdar {
 		if (!this._$prevButtons || !this._$prevButtons.length)
 			this._buildPrevButton()
 		else
-			Array.from(this._$prevButtons).forEach(btn => btn.style.display = this._currentIndex === 0 ? 'none' : '')
+			Array.from(this._$prevButtons).forEach(btn => {
+				btn.style.display = this._currentIndex === 0 ? 'none' : ''
+			})
 	}
 
 	/**
@@ -448,6 +488,9 @@ class Zangdar {
 		return isValid && customValid
 	}
 
+	/**
+	 * @private
+	 */
 	_bindEventsContext() {
 		['onSubmit', 'onStepChange', 'onValidation', 'customValidation']
 			.forEach(eventName => {
@@ -457,7 +500,9 @@ class Zangdar {
 	}
 
 	/**
-	 * @param {Event} e 
+	 * @param {Event} e
+	 * 
+	 * @private
 	 */
 	_onNextStep(e) {
 		e.preventDefault()
@@ -467,7 +512,9 @@ class Zangdar {
 	}
 
 	/**
-	 * @param {Event} e 
+	 * @param {Event} e
+	 * 
+	 * @private
 	 */
 	_onPrevStep(e) {
 		e.preventDefault()
@@ -475,7 +522,9 @@ class Zangdar {
 	}
 
 	/**
-	 * @param {Event} e 
+	 * @param {Event} e
+	 * 
+	 * @private
 	 */
 	_onSubmit(e) {
 		if (this._validateCurrentStep()) {
@@ -490,7 +539,7 @@ if (isServerSide)
 	module.exports = Zangdar
 
 if (isBrowserSide) {
-	!window.hasOwnProperty('Zangdar') && (window.Zangdar = Zangdar)
+	!window.hasOwnProperty('Zangdar') && (window['Zangdar'] = Zangdar)
 
 	if (!HTMLFormElement.prototype.zangdar)
 		HTMLFormElement.prototype.zangdar = function (options) {
