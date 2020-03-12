@@ -69,3 +69,4 @@ package-lock.json
 
 deploy.sh
 /deploy.sh
+.history/
