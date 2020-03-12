@@ -77,6 +77,13 @@ class Zangdar {
     get uniqueId() {
         return this._uuid
     }
+    
+    /**
+     * Refresh wizard instance
+     */
+    refresh() {
+        this._init()
+    }
 
     /**
      * Get a step
