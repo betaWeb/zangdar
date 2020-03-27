@@ -223,7 +223,7 @@ class Zangdar {
 
 			if (index !== this._currentIndex) {
 				const oldStep = this.getCurrentStep()
-				const direction = oldStep.index > index ? -1 : 1
+				const direction = oldStep && oldStep.index > index ? -1 : 1
 
 				if (direction < 0 || this._validateCurrentStep()) {
 					this._currentIndex = index
@@ -471,6 +471,8 @@ class Zangdar {
 	 */
 	_validateCurrentStep() {
 		const currentStep = this.getCurrentStep()
+
+		if (currentStep === undefined) return true;
 
 		if (this._params.customValidation && this._params.customValidation.constructor === Function) {
 			this._$form.setAttribute('novalidate', '')
