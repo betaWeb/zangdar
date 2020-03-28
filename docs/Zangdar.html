@@ -5,6 +5,7 @@
     <title>Class: Zangdar</title>
     
     
+    
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -38,11 +39,15 @@
     </div>
     <ul class="list">
     
+    
         <li class="item" data-name="WizardStep">
             <span class="title  ">
                 
-                <a href="WizardStep.html">WizardStep</a>
+                
+                    <a href="WizardStep.html">WizardStep</a>
+                
             </span>
+            
             <ul class="members itemMembers">
             
             <span class="subtitle">Members</span>
@@ -50,12 +55,15 @@
                 <li class="parent " data-name="WizardStep#completed"><a href="WizardStep.html#completed">completed</a></li>
             
             </ul>
+            
             <ul class="typedefs itemMembers">
             
             </ul>
+            
             <ul class="typedefs itemMembers">
             
             </ul>
+            
             <ul class="methods itemMembers">
             
             <span class="subtitle">Methods</span>
@@ -74,21 +82,32 @@
             
                 <li class="parent  " data-name="WizardStep#isComplete"><a href="WizardStep.html#isComplete">isComplete</a></li>
             
+                <li class="parent  " data-name="WizardStep#isFirst"><a href="WizardStep.html#isFirst">isFirst</a></li>
+            
+                <li class="parent  " data-name="WizardStep#isLast"><a href="WizardStep.html#isLast">isLast</a></li>
+            
                 <li class="parent  " data-name="WizardStep#labeled"><a href="WizardStep.html#labeled">labeled</a></li>
+            
+                <li class="parent  " data-name="WizardStep#removeElement"><a href="WizardStep.html#removeElement">removeElement</a></li>
             
                 <li class="parent  " data-name="WizardStep#validate"><a href="WizardStep.html#validate">validate</a></li>
             
             </ul>
+            
             <ul class="events itemMembers">
             
             </ul>
+            
         </li>
     
         <li class="item" data-name="Zangdar">
             <span class="title  ">
                 
-                <a href="Zangdar.html">Zangdar</a>
+                
+                    <a href="Zangdar.html">Zangdar</a>
+                
             </span>
+            
             <ul class="members itemMembers">
             
             <span class="subtitle">Members</span>
@@ -100,12 +119,15 @@
                 <li class="parent " data-name="Zangdar#uniqueId"><a href="Zangdar.html#uniqueId">uniqueId</a></li>
             
             </ul>
+            
             <ul class="typedefs itemMembers">
             
             </ul>
+            
             <ul class="typedefs itemMembers">
             
             </ul>
+            
             <ul class="methods itemMembers">
             
             <span class="subtitle">Methods</span>
@@ -146,6 +168,8 @@
             
                 <li class="parent  " data-name="Zangdar#destroy"><a href="Zangdar.html#destroy">destroy</a></li>
             
+                <li class="parent  " data-name="Zangdar#first"><a href="Zangdar.html#first">first</a></li>
+            
                 <li class="parent  " data-name="Zangdar#getBreadcrumb"><a href="Zangdar.html#getBreadcrumb">getBreadcrumb</a></li>
             
                 <li class="parent  " data-name="Zangdar#getCurrentStep"><a href="Zangdar.html#getCurrentStep">getCurrentStep</a></li>
@@ -154,24 +178,31 @@
             
                 <li class="parent  " data-name="Zangdar#getStep"><a href="Zangdar.html#getStep">getStep</a></li>
             
+                <li class="parent  " data-name="Zangdar#last"><a href="Zangdar.html#last">last</a></li>
+            
                 <li class="parent  " data-name="Zangdar#next"><a href="Zangdar.html#next">next</a></li>
             
                 <li class="parent  " data-name="Zangdar#prev"><a href="Zangdar.html#prev">prev</a></li>
             
                 <li class="parent  " data-name="Zangdar#refresh"><a href="Zangdar.html#refresh">refresh</a></li>
             
+                <li class="parent  " data-name="Zangdar#removeStep"><a href="Zangdar.html#removeStep">removeStep</a></li>
+            
                 <li class="parent  " data-name="Zangdar#revealStep"><a href="Zangdar.html#revealStep">revealStep</a></li>
             
                 <li class="parent  " data-name="Zangdar#setOption"><a href="Zangdar.html#setOption">setOption</a></li>
             
             </ul>
+            
             <ul class="events itemMembers">
             
             </ul>
+            
         </li>
     
     </ul>
 </div>
+
     <div class="main">
         <h1 class="page-title" data-filename="Zangdar.html">Class: Zangdar</h1>
         
@@ -189,11 +220,12 @@
 </header>  
 
 <article class="content-size">
-    <div class="container-overview">
     
-    
-    
+        <div class="container-overview">
         
+
+        
+            
 <dt>
     <div class="nameContainer">
         <h4 class="name" id="Zangdar">
@@ -331,8 +363,11 @@
     
 </dd>
 
+        
+        </div>
     
-    </div>
+    
+    
     
     
     
@@ -861,7 +896,7 @@
             <span class="">
                 _buildStep
             </span>
-            <span class="signature">(item, index)</span>
+            <span class="signature">(item, index, last)</span>
             
             <span class="access-signature">private</span>
             
@@ -910,7 +945,7 @@
             <td class="type">
             
                 
-<span class="param-type">Object</span>
+<span class="param-type">HTMLElement</span>
 
 
             
@@ -934,6 +969,29 @@
             
                 
 <span class="param-type">Number</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                </td>
+        </tr>
+	
+	
+	
+        <tr>
+            
+                <td class="name"><code>last</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type">Boolean</span>
 
 
             
@@ -2168,6 +2226,107 @@
             
 <dt>
     <div class="nameContainer">
+        <h4 class="name" id="first">
+            <a class="share-icon" href="#first"><span class="glyphicon glyphicon-link"></span></a>
+            <span class="">
+                first
+            </span>
+            <span class="signature">()</span><span class="type-signature"><a href="Zangdar.html">Zangdar</a></span>
+            
+            
+            
+            
+        </h4>
+    
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Reveal first step</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Type</th>
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+        <tr>
+            
+            <td class="type">
+            
+                        <a href="Zangdar.html">Zangdar</a>
+                        
+                    
+            </td>
+            <td class="description last"></td>
+        </tr>
+    
+    </tbody>
+</table>
+
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
         <h4 class="name" id="getBreadcrumb">
             <a class="share-icon" href="#getBreadcrumb"><span class="glyphicon glyphicon-link"></span></a>
             <span class="">
@@ -2622,6 +2781,107 @@
             
 <dt>
     <div class="nameContainer">
+        <h4 class="name" id="last">
+            <a class="share-icon" href="#last"><span class="glyphicon glyphicon-link"></span></a>
+            <span class="">
+                last
+            </span>
+            <span class="signature">()</span><span class="type-signature"><a href="Zangdar.html">Zangdar</a></span>
+            
+            
+            
+            
+        </h4>
+    
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Reveal last step</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Type</th>
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+        <tr>
+            
+            <td class="type">
+            
+                        <a href="Zangdar.html">Zangdar</a>
+                        
+                    
+            </td>
+            <td class="description last"></td>
+        </tr>
+    
+    </tbody>
+</table>
+
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
         <h4 class="name" id="next">
             <a class="share-icon" href="#next"><span class="glyphicon glyphicon-link"></span></a>
             <span class="">
@@ -2911,6 +3171,161 @@
                     
             </td>
             <td class="description last"></td>
+        </tr>
+    
+    </tbody>
+</table>
+
+    
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <div class="nameContainer">
+        <h4 class="name" id="removeStep">
+            <a class="share-icon" href="#removeStep"><span class="glyphicon glyphicon-link"></span></a>
+            <span class="">
+                removeStep
+            </span>
+            <span class="signature">(key)</span><span class="type-signature">Number | Boolean</span>
+            
+            
+            
+            
+        </h4>
+    
+        
+    </div>
+
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        <p>Remove a step based on his index, label or WizardStep instance</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        
+
+<table class="params">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+		
+		<th>Type</th>
+		
+		
+		
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	
+	
+        <tr>
+            
+                <td class="name"><code>key</code></td>
+            
+            
+            <td class="type">
+            
+                
+<span class="param-type"><a href="WizardStep.html">WizardStep</a></span>
+|
+
+<span class="param-type">String</span>
+|
+
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+            
+            
+            
+            <td class="description last">
+                
+                </td>
+        </tr>
+	
+	
+	</tbody>
+</table>
+    
+    
+    
+<dl class="details">
+    
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Type</th>
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+        <tr>
+            
+            <td class="type">
+            
+                        Number
+                         | 
+                    
+                        Boolean
+                        
+                    
+            </td>
+            <td class="description last">returns the index of removed step if exists, false otherwize</td>
         </tr>
     
     </tbody>
@@ -3258,7 +3673,7 @@
 
         <footer class="content-size">
             <div class="footer">
-                Documentation generated by <a target="_blank" href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.2</a> on Sat Mar 28 2020 16:01:34 GMT+0100 (GMT+01:00)
+                Documentation generated by <a target="_blank" href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Sat Mar 28 2020 19:00:41 GMT+0100 (GMT+01:00)
             </div>
         </footer>
     </div>

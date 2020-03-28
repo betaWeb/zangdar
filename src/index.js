@@ -162,6 +162,52 @@ class Zangdar {
 	}
 
 	/**
+	 * Remove a step based on his index, label or WizardStep instance
+	 *
+	 * @param {WizardStep|String|Number} key
+	 * @return {Number|Boolean} returns the index of removed step if exists, false otherwize
+	 */
+	removeStep(key) {
+		let step
+
+		if (key instanceof WizardStep) step = key
+		else step = this.getStep(key)
+
+		if (!step) return false
+
+		step.removeElement()
+		this._steps = this._steps.filter(s => !s.indexed(step.index))
+		this.refresh()
+
+		return step.index
+	}
+
+
+	/**
+	 * Reveal first step
+	 *
+	 * @fluent
+	 * @returns {Zangdar}
+	 */
+	first() {
+		this.revealStep(0)
+
+		return this
+	}
+
+	/**
+	 * Reveal last step
+	 *
+	 * @fluent
+	 * @returns {Zangdar}
+	 */
+	last() {
+		this.revealStep(this._steps.length - 1)
+
+		return this
+	}
+
+	/**
 	 * Reveal previous step
 	 *
 	 * @fluent
@@ -293,14 +339,7 @@ class Zangdar {
 	 * @returns {Object}
 	 */
 	getBreadcrumb() {
-		return this._steps.reduce((acc, step) => {
-			acc[step.label] = {
-				completed: step.isComplete(),
-				active: step.isActive()
-			}
-
-			return acc
-		}, {})
+		return this._steps.reduce((acc, step) => ({...acc, ...{[step.label]: step}}), {})
 	}
 
 	/**
@@ -323,6 +362,7 @@ class Zangdar {
 
 		!this._$form.hasAttribute('name') && (this._$form.setAttribute('name', this._uuid))
 
+		this._$form.removeEventListener('submit', this._onSubmit)
 		this._$form.addEventListener('submit', this._onSubmit)
 	}
 
@@ -343,6 +383,7 @@ class Zangdar {
 		} else {
 			Array.from(this._$prevButtons).forEach(btn => {
 				btn.classList.add(this._params.classes.prev_button)
+				btn.removeEventListener('click', this._onPrevStep)
 				btn.addEventListener('click', this._onPrevStep)
 			})
 		}
@@ -354,15 +395,13 @@ class Zangdar {
 	_buildSteps() {
 		let steps = Array.from(this._$form.querySelectorAll(this._params.step_selector))
 
-		if (!steps.length)
-			throw new Error(`[Err] Zangdar._buildSteps - you must have at least one step (a HTML element with "${this._params.step_selector}" attribute)`)
-
 		this._steps = steps.reduce((acc, item, index) => {
-			acc.push(this._buildStep(item, index))
+			acc.push(this._buildStep(item, index, steps.length - 1 === index))
 
 			let $nextButton
 			if (index < steps.length - 1 && ($nextButton = item.querySelector(this._params.next_step_selector)) !== null) {
 				$nextButton.classList.add(this._params.classes.next_button)
+				$nextButton.removeEventListener('click', this._onNextStep)
 				$nextButton.addEventListener('click', this._onNextStep)
 			}
 
@@ -387,12 +426,13 @@ class Zangdar {
 	}
 
 	/**
-	 * @param {Object} item
+	 * @param {HTMLElement} item
 	 * @param {Number} index
-	 * 
+	 * @param {Boolean} last
+	 *
 	 * @private
 	 */
-	_buildStep(item, index) {
+	_buildStep(item, index, last) {
 		const label = item.dataset.step
 		const isActive = index === this._params.active_step_index
 
@@ -403,7 +443,7 @@ class Zangdar {
 			this._currentIndex = index
 		}
 
-		return new WizardStep(index, item, label, isActive)
+		return new WizardStep(index, item, label, isActive, last)
 	}
 
 	/**

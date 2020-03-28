@@ -16,6 +16,9 @@
 		.form-completed {
 			display: none;
 		}
+		.step li.step-item:first-child::before {
+			background: transparent !important;
+		}
 	</style>
 </head>
 <body>
@@ -67,7 +70,7 @@
 					</div>
 					<div class="form-group">
 						<button class="btn btn-link text-gray" data-prev>Previous</button>
-						<button class="btn btn-primary float-right" type="submit">Send</button>
+						<button class="btn btn-primary float-right" data-next>Next</button>
 					</div>
 				</section>
 			</form>
@@ -115,7 +118,7 @@
 	document.addEventListener('DOMContentLoaded', () => {
 
 		const wizard = new Zangdar('#zangdar-form', {
-		    onStepChange(step) {
+		    onStepChange() {
                 const breadcrumb = this.getBreadcrumb()
                 buildSteps(breadcrumb)
 			},
@@ -148,10 +151,54 @@
 			}
 		})
 
+        const buildBreadcrumb = () => {
+            const breadcrumb = wizard.getBreadcrumb()
+            buildSteps(breadcrumb)
+        }
+
+        const addStep = () => {
+            const stepNumber = wizard.steps.length + 1
+            const html =`<section data-step="step-${stepNumber}">
+				<h2>Step #${stepNumber}</h2>
+				<div>
+					<button class="btn btn-primary float-right" data-next>Next</button>
+				</div>
+			</section>`
+            wizard.getFormElement().innerHTML += html;
+            wizard.refresh()
+            buildBreadcrumb()
+        }
+
+        const removeStep = index => {
+			wizard.removeStep(index)
+            buildBreadcrumb()
+        }
+
         const buildSteps = steps => {
             const $steps = document.getElementById('steps')
-            $steps.innerHTML = ''
-            for (let label in steps) {
+
+			if (document.getElementById('add__step') !== null)
+				document.getElementById('add__step').removeEventListener('click', addStep)
+
+            if (document.getElementById('remove__step') !== null)
+                document.getElementById('remove__step').removeEventListener('click', removeStep)
+
+			$steps.innerHTML = ''
+
+            let $li = document.createElement('li')
+			const $removeBtn = document.createElement('button')
+            $removeBtn.setAttribute('id', 'remove__step')
+            $removeBtn.classList.add('btn', 'btn-error')
+            $removeBtn.addEventListener('click', () => {
+                const index = wizard.steps.length - 1
+				if (index < 3) return
+                removeStep(index)
+            })
+            $removeBtn.innerHTML = '-'
+            $li.appendChild($removeBtn)
+            $steps.appendChild($li)
+
+			for (let label in steps) {
                 if (steps.hasOwnProperty(label)) {
                     const $li = document.createElement('li')
                     const $a = document.createElement('a')
@@ -171,10 +218,18 @@
                     $steps.appendChild($li)
                 }
             }
+
+            $li = document.createElement('li')
+            const $addBtn = document.createElement('button')
+            $addBtn.setAttribute('id', 'add__step')
+            $addBtn.classList.add('btn', 'btn-primary')
+            $addBtn.addEventListener('click', addStep)
+			$addBtn.innerHTML = '+'
+            $li.appendChild($addBtn)
+            $steps.appendChild($li)
         }
 
-        const breadcrumb = wizard.getBreadcrumb()
-        buildSteps(breadcrumb)
+        buildBreadcrumb()
 
         new Zangdar('#zangdar-form-2').createFromTemplate({
             'coords': ['.field__name', '.field__email'],

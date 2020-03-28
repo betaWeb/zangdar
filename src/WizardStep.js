@@ -7,12 +7,14 @@ class WizardStep {
      * @param {HTMLElement} element
      * @param {String} label
      * @param {Boolean} active
+     * @param {Boolean} last
      */
-    constructor(index, element, label, active = false) {
+    constructor(index, element, label, active = false, last = false) {
         this.index = index
         this.element = element
         this.label = label
         this.active = active
+        this.last = last
         this._completed = false
         this._errors = {}
         this._fields = {}
@@ -74,6 +76,24 @@ class WizardStep {
     }
 
     /**
+     * Is first step (based on index)
+     *
+     * @returns {boolean}
+     */
+    isFirst() {
+        return this.index === 0;
+    }
+
+    /**
+     * Is last step
+     *
+     * @returns {boolean}
+     */
+    isLast() {
+        return this.last === true;
+    }
+
+    /**
      * Validate a step (HTML5 native validation)
      *
      * @return {boolean}
@@ -113,6 +133,14 @@ class WizardStep {
         this._errors[field].push(value)
 
         return this
+    }
+
+    /**
+     * Removes the HTMLElement from the DOM
+     */
+    removeElement() {
+        if (this.element.parentNode)
+            this.element.parentNode.removeChild(this.element)
     }
 
     /**
