@@ -1,4 +1,4 @@
-# zangdar
+# Zangdar Wizard
 A JavaScript class to simply generate and handle HTML form wizards.
 
 You can find a very simple [demo](https://codepen.io/betaweb/pen/dLBbbq) at this link, and the [API here](https://betaweb.github.io/zangdar/).<br>
@@ -15,10 +15,10 @@ To install Zangdar, you just have to download `zangdar.min.js` in the `dist` fol
 
 Your have to add this basic CSS to your styles too :
 ```CSS
-.zandgar__wizard .zandgar__step {
+.zangdar__wizard .zangdar__step {
     display: none;
 }
-.zandgar__wizard .zandgar__step.zandgar__step__active {
+.zangdar__wizard .zangdar__step.zangdar__step__active {
     display: block;
 }
 ```
@@ -60,7 +60,7 @@ Here a basic HTML form with sections to separate wizard parts :
 
 <br>
 
-And you just have to instanciate Zandgar with the selector of the form you wan't to handle :
+And you just have to instanciate Zangdar with the selector of the form you wan't to handle :
 ```JS
 document.addEventListener('DOMContentLoaded', () => {
     const wizard = new Zangdar('#my-form')
@@ -84,11 +84,11 @@ Name | Type | Default | Description
 **prev_step_selector** | *String* | `[data-next]` | Wizard step next button (or any element) selector
 **submit_selector** | *String* | `[type="submit"]` | Wizard form submit button selector
 **active_step_index** | *Number* | `0` | Wizard active step index (useful to define active step on wizard instanciation)
-**classes.form** | *String* | `zandgar__wizard` | Wizard form CSS class
-**classes.prev_button** | *String* | `zandgar__prev` | Wizard previous button (or any element) CSS class
-**classes.next_button** | *String* | `zandgar__next` | Wizard next button (or any element) CSS class
-**classes.step** | *String* | `zandgar__step` | Wizard step section CSS class
-**classes.step_active** | *String* | `zandgar__step__active` | Wizard active step section CSS class
+**classes.form** | *String* | `zangdar__wizard` | Wizard form CSS class
+**classes.prev_button** | *String* | `zangdar__prev` | Wizard previous button (or any element) CSS class
+**classes.next_button** | *String* | `zangdar__next` | Wizard next button (or any element) CSS class
+**classes.step** | *String* | `zangdar__step` | Wizard step section CSS class
+**classes.step_active** | *String* | `zangdar__step__active` | Wizard active step section CSS class
 
 <br>
 
