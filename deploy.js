@@ -5,8 +5,10 @@ const ora = require('ora')
 
 /* .: Constants :. */
 const MESSAGE = process.argv[2] || 'commit changes'
-const VERSION = process.argv[3] || 'patch'
+const VERSION = process.argv[3] ? (process.argv[3] === 'same' ? '--allow-same-version' : process.argv[3]) : 'patch'
 const DEBUG = process.env.DEBUG !== undefined
+
+console.log(VERSION)
 
 /* .: Functions :. */
 let commands = {

@@ -97,7 +97,7 @@ class Zangdar {
 
 	/**
 	 * Destroys wizard instance
-	 * @todo
+	 * @todo destroy wizard
 	 */
 	destroy() {
 		try {

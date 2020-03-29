@@ -67,7 +67,4 @@ package-lock.json
 /.idea/*
 /.idea
 
-deploy.sh
-/deploy.sh
-
 .history
