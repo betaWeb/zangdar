@@ -5,7 +5,7 @@ const ora = require('ora')
 
 /* .: Constants :. */
 const MESSAGE = process.argv[2] || 'commit changes'
-const VERSION = process.argv[3] ? (process.argv[3] === 'same' ? '--allow-same-version' : process.argv[3]) : 'patch'
+const VERSION = process.argv[3] || 'patch'
 const DEBUG = process.env.DEBUG !== undefined
 
 /*console.log(VERSION)
@@ -17,6 +17,8 @@ let commands = {
     push: "git push --tags %s origin master",
     publish: "npm publish %s"
 }
+if (VERSION === 'same')
+    commands.publish += " --allow-same-version"
 
 for (let key in commands) {
     commands[key] = commands[key].replace(/%s/g, DEBUG ? "--dry-run" : "")
@@ -47,7 +49,10 @@ try {
     execCommand("npm run build", "Build application", DEBUG)
     execCommand("npm run doc", "Build API docs...", DEBUG)
     execCommand(commands.commit, `Commit "${MESSAGE}"`)
-    execCommand(`npm version "${VERSION}"`, `Patch npm package version "${VERSION}"`, DEBUG)
+
+    if (VERSION !== 'same')
+        execCommand(`npm version "${VERSION}"`, `Patch npm package version "${VERSION}"`, DEBUG)
+
     execCommand(commands.push, "Github deployment")
     execCommand(commands.publish, "Publish into npm")
 
