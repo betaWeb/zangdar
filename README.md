@@ -1,7 +1,7 @@
 # Zangdar Wizard
 A JavaScript class to simply generate and handle HTML form wizards.
 
-You can find a very simple [demo](https://codepen.io/betaweb/pen/dLBbbq) at this link, and the [API here](https://betaweb.github.io/zangdar/).<br>
+You can find a very simple [demo](https://codepen.io/betaweb/pen/dLBbbq) at this link, and the [API documentation here](https://betaweb.github.io/zangdar/).<br>
 
 <br><br>
 
@@ -9,12 +9,12 @@ You can find a very simple [demo](https://codepen.io/betaweb/pen/dLBbbq) at this
 ## Getting started
 ### Installation
 To install Zangdar, you just have to download `zangdar.min.js` in the `dist` folder and add a script into your HTML page :
-```HTML
+```html
 <script src="path/to/zangdar.min.js"></script>
 ```
 
 Your have to add this basic CSS to your styles too :
-```CSS
+```css
 .zangdar__wizard .zangdar__step {
     display: none;
 }
@@ -29,7 +29,7 @@ Your have to add this basic CSS to your styles too :
 ### Basic usage
 
 Here a basic HTML form with sections to separate wizard parts :
-```HTML
+```html
 <form id="my-form">
     <section data-step="coords">
         <input type="text" name="name" placeholder="Your name here...">
@@ -61,7 +61,7 @@ Here a basic HTML form with sections to separate wizard parts :
 <br>
 
 And you just have to instanciate Zangdar with the selector of the form you wan't to handle :
-```JS
+```javascript
 document.addEventListener('DOMContentLoaded', () => {
     const wizard = new Zangdar('#my-form')
 })
@@ -89,6 +89,7 @@ Name | Type | Default | Description
 **classes.next_button** | *String* | `zangdar__next` | Wizard next button (or any element) CSS class
 **classes.step** | *String* | `zangdar__step` | Wizard step section CSS class
 **classes.step_active** | *String* | `zangdar__step__active` | Wizard active step section CSS class
+**bypass_validation** | *Boolean* | `false` | Bypass native browser validation or user custom validation
 
 <br>
 
@@ -104,7 +105,7 @@ Name | Type | Default | Parameters | Description
 <br>
 
 Here there are examples for the events listed above :
-```JS
+```javascript
 const wizard = new Zangdar('#my-form', {
     onSubmit(e) {
         e.preventDefault()
@@ -148,3 +149,22 @@ const wizard = new Zangdar('#my-form', {
     }
 })
 ```
+<br>
+
+### Available methods, getters and setters
+You can retrieve all available methods on the [API documentation](https://betaweb.github.io/zangdar/).
+
+#### Zangdar object
+Signature | Type | Description
+--- | --- | ---
+**currentIndex**: `Number` | *getter* | Returns current wizard step index
+**steps**: `WizardStep[]` | *getter* | Returns an array of wizard steps 
+**uniqueId**: `String` | *getter* | Returns the wizard instance unique id. Useful if you have more than one instance of the wizard on the page.
+**refresh()**: `Zangdar` | *method* | Refresh the wizard instance. Useful when steps order has changed.
+**destroy()**: `void` | *method* | Remove all listeners and destroys the wizard instance.
+**getStep(key: `String`&#124;`Number`)**: `WizardStep`&#124;`null` | *method* | Remove all listeners and destroys the wizard instance.
+
+<br><br>
+
+## TODO
+ * [ ] finish **Available methods, getters and setters** readme section

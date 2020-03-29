@@ -8,7 +8,8 @@
 		"build": "./node_modules/.bin/webpack --config webpack.config.js",
 		"doc": "jsdoc -p -R README.md -a all -c jsdoc.conf.json",
 		"deploy-dry": "DEBUG=true node deploy.js",
-		"deploy": "node deploy.js"
+		"deploy": "node deploy.js",
+		"test": "jest --watchAll --colors"
 	},
 	"repository": {
 		"type": "git",
@@ -41,10 +42,15 @@
 		"@babel/preset-env": "^7.9.0",
 		"@babel/runtime": "^7.9.2",
 		"@pixi/jsdoc-template": "^2.5.1",
+		"@types/jest": "^25.1.4",
 		"babel-loader": "^8.1.0",
 		"better-docs": "^1.4.7",
 		"colors": "^1.4.0",
+		"jest": "^25.2.3",
+		"jest-cli": "^25.2.3",
+		"jest-extended": "^0.11.5",
 		"jsdoc": "^3.6.3",
+		"jsdom": "^16.2.1",
 		"ora": "^4.0.3",
 		"webpack": "^4.42.1",
 		"webpack-cli": "^3.3.11",

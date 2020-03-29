@@ -41,6 +41,10 @@ class WizardStep {
         return this._fields
     }
 
+    get errors() {
+        return this._errors
+    }
+
     /**
      * @param {Number} index
      * @returns {boolean}
@@ -136,20 +140,20 @@ class WizardStep {
     }
 
     /**
-     * Removes the HTMLElement from the DOM
-     */
-    removeElement() {
-        if (this.element.parentNode)
-            this.element.parentNode.removeChild(this.element)
-    }
-
-    /**
      * @returns {WizardStep}
      */
     clearErrors() {
         this._errors = {}
 
         return this
+    }
+
+    /**
+     * Removes the HTMLElement from the DOM
+     */
+    removeElement() {
+        if (this.element.parentNode)
+            this.element.parentNode.removeChild(this.element)
     }
 
     /**

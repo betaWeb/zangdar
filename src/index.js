@@ -17,6 +17,7 @@ const DEFAULT_PARAMS = {
 		step: 'zangdar__step',
 		step_active: 'zangdar__step__active',
 	},
+	bypass_validation: false,
 	onSubmit: null,
 	onStepChange: null,
 	onValidation: null,
@@ -190,7 +191,7 @@ class Zangdar {
 	 * @returns {Zangdar}
 	 */
 	first() {
-		this.revealStep(0)
+		this._firstStep()
 
 		return this
 	}
@@ -202,7 +203,7 @@ class Zangdar {
 	 * @returns {Zangdar}
 	 */
 	last() {
-		this.revealStep(this._steps.length - 1)
+		this._lastStep()
 
 		return this
 	}
@@ -497,6 +498,34 @@ class Zangdar {
 	}
 
 	/**
+	 * @private
+	 */
+	_firstStep() {
+		const oldStep = this.getCurrentStep()
+		this._steps.map(step => {
+			step.completed = false
+			step.active = false
+		})
+		this._currentIndex = 0
+		this._revealStep()
+		this._onStepChange(oldStep, -1)
+	}
+
+	/**
+	 * @private
+	 */
+	_lastStep() {
+		const oldStep = this.getCurrentStep()
+		this._currentIndex = this._steps.length - 1
+		this._steps.map(step => {
+			step.completed = !step.indexed(this._currentIndex)
+			step.active = false
+		})
+		this._revealStep()
+		this._onStepChange(oldStep, 1)
+	}
+
+	/**
 	 * @param {WizardStep} oldStep
 	 * @param {Number} direction
 	 * @private
@@ -510,6 +539,7 @@ class Zangdar {
 	 * @private
 	 */
 	_validateCurrentStep() {
+		if (this._params.bypass_validation === true) return true;
 		const currentStep = this.getCurrentStep()
 
 		if (currentStep === undefined) return true;

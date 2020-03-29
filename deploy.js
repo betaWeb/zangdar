@@ -8,9 +8,6 @@ const MESSAGE = process.argv[2] || 'commit changes'
 const VERSION = process.argv[3] || 'patch'
 const DEBUG = process.env.DEBUG !== undefined
 
-/*console.log(VERSION)
-process.exit()*/
-
 /* .: Functions :. */
 let commands = {
     commit: `git add %s . && git commit %s -am "${MESSAGE}"`,
