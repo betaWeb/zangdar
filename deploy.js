@@ -17,8 +17,6 @@ let commands = {
     push: "git push --tags %s origin master",
     publish: "npm publish %s"
 }
-if (VERSION === 'same')
-    commands.publish += " --allow-same-version"
 
 for (let key in commands) {
     commands[key] = commands[key].replace(/%s/g, DEBUG ? "--dry-run" : "")
@@ -49,10 +47,7 @@ try {
     execCommand("npm run build", "Build application", DEBUG)
     execCommand("npm run doc", "Build API docs...", DEBUG)
     execCommand(commands.commit, `Commit "${MESSAGE}"`)
-
-    if (VERSION !== 'same')
-        execCommand(`npm version "${VERSION}"`, `Patch npm package version "${VERSION}"`, DEBUG)
-
+    execCommand(`npm version "${VERSION}"`, `Patch npm package version "${VERSION}"`, DEBUG)
     execCommand(commands.push, "Github deployment")
     execCommand(commands.publish, "Publish into npm")
 
