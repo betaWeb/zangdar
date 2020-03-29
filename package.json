@@ -6,7 +6,9 @@
 	"scripts": {
 		"dev": "ENV=development ./node_modules/.bin/webpack --config webpack.config.js",
 		"build": "./node_modules/.bin/webpack --config webpack.config.js",
-		"doc": "jsdoc -p -R README.md -a all -c jsdoc.conf.json"
+		"doc": "jsdoc -p -R README.md -a all -c jsdoc.conf.json",
+		"deploy-dry": "DEBUG=true node deploy.js",
+		"deploy": "node deploy.js"
 	},
 	"repository": {
 		"type": "git",
@@ -41,7 +43,9 @@
 		"@pixi/jsdoc-template": "^2.5.1",
 		"babel-loader": "^8.1.0",
 		"better-docs": "^1.4.7",
+		"colors": "^1.4.0",
 		"jsdoc": "^3.6.3",
+		"ora": "^4.0.3",
 		"webpack": "^4.42.1",
 		"webpack-cli": "^3.3.11",
 		"webpack-node-externals": "^1.7.2"
