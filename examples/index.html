@@ -19,6 +19,18 @@
 		.step li.step-item:first-child::before {
 			background: transparent !important;
 		}
+
+		.zangdar-form-2 {
+			position: relative;
+		}
+
+		.zangdar-form-2 .zangdar__step {
+			position: absolute;
+			visibility: hidden;
+		}
+		.zangdar-form-2 .zangdar__step.zangdar__step__active {
+			visibility: visible;
+		}
 	</style>
 </head>
 <body>
@@ -84,26 +96,26 @@
 <hr>
 
 <h2>Wizard generated from JS template</h2>
-<form id="zangdar-form-2">
+<form id="zangdar-form-2" class="zangdar-form-2">
 	<div class="field__name">
-		<label for="name">Nom</label>
-		<input type="text" id="name" name="name" required>
+		<label for="name1">Nom</label>
+		<input type="text" id="name1" name="name1" required>
 	</div>
 	<div class="field__email">
-		<label for="email">Email</label>
-		<input type="text" id="email" name="email" required>
+		<label for="email1">Email</label>
+		<input type="text" id="email1" name="email1" required>
 	</div>
 	<div class="field__password">
-		<label for="password">Mot de passe</label>
-		<input type="password" id="password" name="password" required>
+		<label for="password1">Mot de passe</label>
+		<input type="password" id="password1" name="password1" required>
 	</div>
 	<div class="field__password_confirm">
-		<label for="password_confirm">Confirmer le mot de passe</label>
-		<input type="password" id="password_confirm" name="password_confirm" required>
+		<label for="password_confirm1">Confirmer le mot de passe</label>
+		<input type="password" id="password_confirm1" name="password_confirm1" required>
 	</div>
 	<div class="field__genre">
-		<label for="genre">Sélectionner votre genre</label>
-		<select id="genre" name="genre" required>
+		<label for="genre1">Sélectionner votre genre</label>
+		<select id="genre1" name="genre1" required>
 			<option value="" disabled selected>Sélectionner...</option>
 			<option value="1">Male</option>
 			<option value="2">Female</option>
@@ -231,7 +243,9 @@
 
         buildBreadcrumb()
 
-        new Zangdar('#zangdar-form-2').createFromTemplate({
+		const wizard2 = new Zangdar('#zangdar-form-2')
+
+		wizard2.createFromTemplate({
             'coords': ['.field__name', '.field__email'],
             'password': ['.field__password', '.field__password_confirm'],
             'others': ['.field__genre']

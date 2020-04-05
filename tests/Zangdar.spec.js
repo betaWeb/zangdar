@@ -12,7 +12,7 @@ beforeAll(async () => {
 describe('Zangdar wizard', () => {
 
     it('Should initialize the wizard with 3 steps', () => {
-        expect(this.wizard._steps.length).toEqual(3)
+        expect(this.wizard.count()).toEqual(3)
     })
 
     it('should have step 1 active', () => {

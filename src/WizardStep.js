@@ -3,6 +3,54 @@ const {getFormElements} = require('./Utils')
 class WizardStep {
 
     /**
+     * @public
+     * @type {number}
+     */
+    index = 0
+
+    /**
+     * @public
+     * @type {HTMLElement}
+     */
+    element = null
+
+    /**
+     * @public
+     * @type {string}
+     */
+    label = ''
+
+    /**
+     * @public
+     * @type {Boolean}
+     */
+    active = false
+
+    /**
+     * @public
+     * @type {Boolean}
+     */
+    last = false
+
+    /**
+     * @private
+     * @type {Boolean}
+     */
+    #completed = false
+
+    /**
+     * @private
+     * @type {Object}
+     */
+    #errors = {}
+
+    /**
+     * @private
+     * @type {Object}
+     */
+    #fields = {}
+
+    /**
      * @param {Number} index
      * @param {HTMLElement} element
      * @param {String} label
@@ -15,15 +63,15 @@ class WizardStep {
         this.label = label
         this.active = active
         this.last = last
-        this._completed = false
-        this._errors = {}
-        this._fields = {}
+        this.#completed = false
+        this.#errors = {}
+        this.#fields = {}
 
-        this._setFields()
+        this.#setFields()
     }
 
     get completed() {
-        return this._completed
+        return this.#completed
     }
 
     /**
@@ -32,17 +80,17 @@ class WizardStep {
      * @return {WizardStep}
      */
     set completed(state) {
-        this._completed = state
+        this.#completed = state
 
         return this
     }
 
     get fields() {
-        return this._fields
+        return this.#fields
     }
 
     get errors() {
-        return this._errors
+        return this.#errors
     }
 
     /**
@@ -106,7 +154,7 @@ class WizardStep {
         this.clearErrors()
         let isValid = true
 
-        Object.values(this._fields)
+        Object.values(this.#fields)
             .reverse()
             .forEach(el => {
                 if (!el.checkValidity()) {
@@ -121,10 +169,9 @@ class WizardStep {
 
     /**
      * @returns {Boolean}
-     * @returns {WizardStep}
      */
     hasErrors() {
-        return Object.keys(this._errors).length > 0
+        return Object.keys(this.#errors).length > 0
     }
 
     /**
@@ -132,9 +179,9 @@ class WizardStep {
      * @param {String} value
      */
     addError(field, value) {
-        if (!this._errors[field]) this._errors[field] = []
+        if (!this.#errors[field]) this.#errors[field] = []
 
-        this._errors[field].push(value)
+        this.#errors[field].push(value)
 
         return this
     }
@@ -143,7 +190,7 @@ class WizardStep {
      * @returns {WizardStep}
      */
     clearErrors() {
-        this._errors = {}
+        this.#errors = {}
 
         return this
     }
@@ -159,8 +206,8 @@ class WizardStep {
     /**
      * @private
      */
-    _setFields() {
-        this._fields = getFormElements(this.element, true)
+    #setFields() {
+        this.#fields = getFormElements(this.element, true)
             .reduce((acc, field) => {
                 const name = field.getAttribute('name')
                 if (name)

@@ -155,16 +155,308 @@ const wizard = new Zangdar('#my-form', {
 You can retrieve all available methods on the [API documentation](https://betaweb.github.io/zangdar/).
 
 #### Zangdar object
-Signature | Type | Description
---- | --- | ---
-**currentIndex**: `Number` | *getter* | Returns current wizard step index
-**steps**: `WizardStep[]` | *getter* | Returns an array of wizard steps 
-**uniqueId**: `String` | *getter* | Returns the wizard instance unique id. Useful if you have more than one instance of the wizard on the page.
-**refresh()**: `Zangdar` | *method* | Refresh the wizard instance. Useful when steps order has changed.
-**destroy()**: `void` | *method* | Remove all listeners and destroys the wizard instance.
-**getStep(key: `String`&#124;`Number`)**: `WizardStep`&#124;`null` | *method* | Remove all listeners and destroys the wizard instance.
+
+<br>
+
+##### Getters
+
+`currentIndex: number`
+
+Returns current wizard step index.
+
+```javascript
+Zangdar.currentIndex
+```
+
+<br>
+
+`steps: WizardStep[]`
+
+Returns an array of wizard steps.
+
+```javascript
+const strps = Zangdar.steps
+```
+
+<br>
+
+`uniqueId: String`
+
+Returns the wizard instance unique id. Useful if you have more than one instance of the wizard on the page.
+
+```javascript
+const wizard_uuid = Zangdar.uniqueId
+```
+
+<br><br>
+
+##### Setters
+No setters currently available.
+
+<br><br>
+
+##### Methods
+
+`refresh(): Zangdar`
+
+Refresh the wizard instance. Useful to refresh the DOM (when steps order has changed, for example).
+> Fluent method : can be chained with other methods
+
+```javascript
+Zangdar.refresh()
+```
+
+<br>
+
+`destroy(): Zangdar`
+
+Remove all listeners and destroys the wizard instance.
+> Fluent method : can be chained with other methods
+
+```javascript
+Zangdar.destroy()
+```
+
+<br>
+
+`setOption(key: String, value: any): Zangdar`
+
+Set an instance' option. (you can retrieve the options list above).
+> Fluent method : can be chained with other methods
+
+```javascript
+Zangdar.setOption('active_step_index', 3)
+Zangdar.setOption('bypass_validation', true)
+Zangdar.refresh()
+```
+
+<br>
+
+`getStep(key: String|Number): WizardStep|null`
+
+Get a WizardStep instance via his index or his label property (data-label attribute).
+
+```javascript
+// With step index
+const step1 = Zangdar.getStep(1)
+
+// OR with step label
+const step_one = Zangdar.getStep('one')
+```
+
+<br>
+
+`getFormElement(): HTMLFormElement`
+
+Get wizard HTML form element.
+
+```javascript
+const form = Zangdar.getFormElement()
+```
+
+<br>
+
+`getCurrentStep(): WizardStep|null`
+
+Get the current WizardStep instance.
+
+```javascript
+const currentStep = Zangdar.getCurrentStep()
+```
+
+<br>
+
+`removeStep(key: Number|String|WizardStep): WizardStep|null`
+
+Remove a step based on his index, label property (data-label attribute) or WizardStep instance.
+
+```javascript
+const step = Zangdar.getStep('step_six')
+const removedIndex = Zangdar.removeStep(step)
+
+// you can refresh the wizard after the step removal
+Zangdar.refresh()
+```
+
+<br>
+
+`first(): Zangdar`
+
+Reveals first step.
+> Fluent method : can be chained with other methods
+
+```javascript
+Zangdar.first()
+```
+
+<br>
+
+`last(): Zangdar`
+
+Reveals last step.
+> Fluent method : can be chained with other methods
+
+```javascript
+Zangdar.last()
+```
+
+<br>
+
+`prev(): Zangdar`
+
+Reveals prev step.
+> Fluent method : can be chained with other methods
+
+```javascript
+Zangdar.prev()
+```
+
+<br>
+
+`next(): Zangdar`
+
+Reveals next step.
+> Fluent method : can be chained with other methods
+
+```javascript
+Zangdar.next()
+```
+
+<br>
+
+`revealStep(key: Number|String|WizardStep): Zangdar`
+
+Reveal a single step based on his index, label property (data-label attribute) or WizardStep instance.
+> Fluent method : can be chained with other methods
+
+```javascript
+try {
+	// With his index
+	Zangdar.revealStep(3)
+	
+	// OR with his label (data-label attribute)
+	Zangdar.revealStep('step_three')
+	
+	// OR event with a WizardStep instance
+	const step = Zangdar.getStep('step_three')
+	// ...
+	Zangdar.revealStep(step)
+} catch (e) {
+	// Step not found
+}
+```
+
+<br>
+
+`createFromTemplate(template: Object): Zangdar`
+
+Create a wizard from an existing form with a template which is describes it, according to the options passed on wizard instance creation.
+Useful to convert programmatically a HTML form into a powerful Zangdar wizard (by keeping only choosen fields).
+> Fluent method : can be chained with other methods
+
+```html
+<form id="my_form">
+	<!-- Gonna be "step_one" -->
+	<div class="field__name">
+		<label for="name">Name</label>
+		<input type="text" id="name" name="name" required>
+	</div>
+	<div class="field__email">
+		<label for="email">Email</label>
+		<input type="text" id="email" name="email" required>
+	</div>
+
+	<!-- Gonna be "step_two" -->
+	<div class="field__password">
+		<label for="password">Password</label>
+		<input type="password" id="password" name="password" required>
+	</div>
+	<div class="field__password_confirm">
+		<label for="password_confirm">Confirm password</label>
+		<input type="password" id="password_confirm" name="password_confirm" required>
+	</div>
+
+	<!-- Gonna be "step_three" -->
+	<div class="field__genre">
+		<label for="genre">Select your gender</label>
+		<select id="genre" name="genre" required>
+			<option value="" disabled selected>Select...</option>
+			<option value="1">Male</option>
+			<option value="2">Female</option>
+			<option value="3">Other</option>
+		</select>
+	</div>
+	<button type="submit">Send</button>
+</form>
+```
+
+```javascript
+const wizard = new Zangdar('#my_form')
+const template = {
+ 'step_one': ['.field__name', '.field__email'],
+ 'step_two': ['.field__password', '.field__password_confirm'],
+ 'step_three': ['.field__genre']
+}
+
+wizard.createFromTemplate(template)
+```
+
+The generated wizard HTML markup will be :
+```html
+<form id="my_form">
+	<section data-label="step_one">
+		<div class="field__name">
+			<label for="name">Name</label>
+			<input type="text" id="name" name="name" required>
+		</div>
+		<div class="field__email">
+			<label for="email">Email</label>
+			<input type="text" id="email" name="email" required>
+		</div>
+		<button data-next>Next</button>
+	</section>
+
+	<section data-label="step_two">
+		<div class="field__password">
+			<label for="password">Password</label>
+			<input type="password" id="password" name="password" required>
+		</div>
+		<div class="field__password_confirm">
+			<label for="password_confirm">Confirm password</label>
+			<input type="password" id="password_confirm" name="password_confirm" required>
+		</div>
+		<button data-prev>Prev</button>
+		<button data-next>Next</button>
+	</section>
+
+	<section data-label="step_three">
+		<div class="field__genre">
+			<label for="genre">Select your gender</label>
+			<select id="genre" name="genre" required>
+				<option value="" disabled selected>Select...</option>
+				<option value="1">Male</option>
+				<option value="2">Female</option>
+				<option value="3">Other</option>
+			</select>
+		</div>
+		<button type="submit">Send</button>
+	</section>
+</form>
+```
+
+<br>
+
+`getBreadcrumb(): Object`
+
+Returns an object representing the wizard breadcrumb with the label property as key, and the WizardStep as value.
+
+```javascript
+const breadcrumb = Zangdar.getBreadcrumb()
+```
 
 <br><br>
 
 ## TODO
- * [ ] finish **Available methods, getters and setters** readme section
+ * [x] Finish Zangdar **Available methods, getters and setters** readme section
+ * [ ] Add WizardStep **Available methods, getters and setters** readme section
+ * [ ] Update gh-pages API docs
