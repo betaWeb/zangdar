@@ -151,16 +151,15 @@ const wizard = new Zangdar('#my-form', {
 ```
 <br>
 
-### Available methods, getters and setters
+## Available methods, getters and setters
 You can retrieve all available methods on the [API documentation](https://betaweb.github.io/zangdar/).
-
-#### Zangdar object
 
 <br>
 
-##### Getters
+### Zangdar object
+#### Getters
 
-`currentIndex: number`
+* `currentIndex: number`
 
 Returns current wizard step index.
 
@@ -170,7 +169,7 @@ Zangdar.currentIndex
 
 <br>
 
-`steps: WizardStep[]`
+* `steps: WizardStep[]`
 
 Returns an array of wizard steps.
 
@@ -180,7 +179,7 @@ const strps = Zangdar.steps
 
 <br>
 
-`uniqueId: String`
+* `uniqueId: String`
 
 Returns the wizard instance unique id. Useful if you have more than one instance of the wizard on the page.
 
@@ -190,14 +189,14 @@ const wizard_uuid = Zangdar.uniqueId
 
 <br><br>
 
-##### Setters
+#### Setters
 No setters currently available.
 
 <br><br>
 
-##### Methods
+#### Methods
 
-`refresh(): Zangdar`
+* `refresh(): Zangdar`
 
 Refresh the wizard instance. Useful to refresh the DOM (when steps order has changed, for example).
 > Fluent method : can be chained with other methods
@@ -208,7 +207,7 @@ Zangdar.refresh()
 
 <br>
 
-`destroy(): Zangdar`
+* `destroy(): Zangdar`
 
 Remove all listeners and destroys the wizard instance.
 > Fluent method : can be chained with other methods
@@ -219,7 +218,7 @@ Zangdar.destroy()
 
 <br>
 
-`setOption(key: String, value: any): Zangdar`
+* `setOption(key: String, value: any): Zangdar`
 
 Set an instance' option. (you can retrieve the options list above).
 > Fluent method : can be chained with other methods
@@ -232,7 +231,7 @@ Zangdar.refresh()
 
 <br>
 
-`getStep(key: String|Number): WizardStep|null`
+* `getStep(key: String|Number): WizardStep|null`
 
 Get a WizardStep instance via his index or his label property (data-label attribute).
 
@@ -246,7 +245,7 @@ const step_one = Zangdar.getStep('one')
 
 <br>
 
-`getFormElement(): HTMLFormElement`
+* `getFormElement(): HTMLFormElement`
 
 Get wizard HTML form element.
 
@@ -256,7 +255,7 @@ const form = Zangdar.getFormElement()
 
 <br>
 
-`getCurrentStep(): WizardStep|null`
+* `getCurrentStep(): WizardStep|null`
 
 Get the current WizardStep instance.
 
@@ -266,7 +265,7 @@ const currentStep = Zangdar.getCurrentStep()
 
 <br>
 
-`removeStep(key: Number|String|WizardStep): WizardStep|null`
+* `removeStep(key: Number|String|WizardStep): WizardStep|null`
 
 Remove a step based on his index, label property (data-label attribute) or WizardStep instance.
 
@@ -280,7 +279,7 @@ Zangdar.refresh()
 
 <br>
 
-`first(): Zangdar`
+* `first(): Zangdar`
 
 Reveals first step.
 > Fluent method : can be chained with other methods
@@ -291,7 +290,7 @@ Zangdar.first()
 
 <br>
 
-`last(): Zangdar`
+* `last(): Zangdar`
 
 Reveals last step.
 > Fluent method : can be chained with other methods
@@ -302,7 +301,7 @@ Zangdar.last()
 
 <br>
 
-`prev(): Zangdar`
+* `prev(): Zangdar`
 
 Reveals prev step.
 > Fluent method : can be chained with other methods
@@ -313,7 +312,7 @@ Zangdar.prev()
 
 <br>
 
-`next(): Zangdar`
+* `next(): Zangdar`
 
 Reveals next step.
 > Fluent method : can be chained with other methods
@@ -324,7 +323,7 @@ Zangdar.next()
 
 <br>
 
-`revealStep(key: Number|String|WizardStep): Zangdar`
+* `revealStep(key: Number|String|WizardStep): Zangdar`
 
 Reveal a single step based on his index, label property (data-label attribute) or WizardStep instance.
 > Fluent method : can be chained with other methods
@@ -348,7 +347,7 @@ try {
 
 <br>
 
-`createFromTemplate(template: Object): Zangdar`
+* `createFromTemplate(template: Object): Zangdar`
 
 Create a wizard from an existing form with a template which is describes it, according to the options passed on wizard instance creation.
 Useful to convert programmatically a HTML form into a powerful Zangdar wizard (by keeping only choosen fields).
@@ -446,7 +445,7 @@ The generated wizard HTML markup will be :
 
 <br>
 
-`getBreadcrumb(): Object`
+* `getBreadcrumb(): Object`
 
 Returns an object representing the wizard breadcrumb with the label property as key, and the WizardStep as value.
 
