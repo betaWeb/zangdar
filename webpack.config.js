@@ -2,17 +2,9 @@ const path = require('path')
 const buildPath = path.resolve(__dirname, "./dist")
 const isDev = process.env.ENV === 'development'
 
-module.exports = {
+const baseConfig = {
+		entry: ["./src/index.js"],
     mode: process.env.ENV || 'production',
-    target: "web",
-    entry: [
-        // '@babel/polyfill',
-        "./src/index.js"
-    ],
-    output: {
-        path: buildPath,
-        filename: `zangdar.min.js`,
-    },
     devtool: isDev ? 'inline-source-map' : false,
     module: {
         rules: [
@@ -24,3 +16,25 @@ module.exports = {
         ]
     }
 }
+
+const serverConfig = {
+	target: "node",
+	output: {
+			path: buildPath,
+			filename: `zangdar.node.min.js`,
+	},
+	...baseConfig
+}
+const browserConfig = {
+	target: "web",
+	output: {
+			path: buildPath,
+			filename: `zangdar.min.js`,
+	},
+	...baseConfig
+}
+
+module.exports = [
+	serverConfig,
+	browserConfig
+]

@@ -453,31 +453,39 @@
 })
 </code></pre>
 <br>
-<h3>Available methods, getters and setters</h3>
+<h2>Available methods, getters and setters</h2>
 <p>You can retrieve all available methods on the <a target="_blank" href="https://betaweb.github.io/zangdar/">API documentation</a>.</p>
-<h4>Zangdar object</h4>
 <br>
-<h5>Getters</h5>
-<p><code>currentIndex: number</code></p>
+<h3>Zangdar object</h3>
+<h4>Getters</h4>
+<ul>
+<li><code>currentIndex: number</code></li>
+</ul>
 <p>Returns current wizard step index.</p>
 <pre class="prettyprint source lang-javascript"><code>Zangdar.currentIndex
 </code></pre>
 <br>
-<p><code>steps: WizardStep[]</code></p>
+<ul>
+<li><code>steps: WizardStep[]</code></li>
+</ul>
 <p>Returns an array of wizard steps.</p>
 <pre class="prettyprint source lang-javascript"><code>const strps = Zangdar.steps
 </code></pre>
 <br>
-<p><code>uniqueId: String</code></p>
+<ul>
+<li><code>uniqueId: String</code></li>
+</ul>
 <p>Returns the wizard instance unique id. Useful if you have more than one instance of the wizard on the page.</p>
 <pre class="prettyprint source lang-javascript"><code>const wizard_uuid = Zangdar.uniqueId
 </code></pre>
 <p><br><br></p>
-<h5>Setters</h5>
+<h4>Setters</h4>
 <p>No setters currently available.</p>
 <p><br><br></p>
-<h5>Methods</h5>
-<p><code>refresh(): Zangdar</code></p>
+<h4>Methods</h4>
+<ul>
+<li><code>refresh(): Zangdar</code></li>
+</ul>
 <p>Refresh the wizard instance. Useful to refresh the DOM (when steps order has changed, for example).</p>
 <blockquote>
 <p>Fluent method : can be chained with other methods</p>
@@ -485,7 +493,9 @@
 <pre class="prettyprint source lang-javascript"><code>Zangdar.refresh()
 </code></pre>
 <br>
-<p><code>destroy(): Zangdar</code></p>
+<ul>
+<li><code>destroy(): Zangdar</code></li>
+</ul>
 <p>Remove all listeners and destroys the wizard instance.</p>
 <blockquote>
 <p>Fluent method : can be chained with other methods</p>
@@ -493,7 +503,9 @@
 <pre class="prettyprint source lang-javascript"><code>Zangdar.destroy()
 </code></pre>
 <br>
-<p><code>setOption(key: String, value: any): Zangdar</code></p>
+<ul>
+<li><code>setOption(key: String, value: any): Zangdar</code></li>
+</ul>
 <p>Set an instance' option. (you can retrieve the options list above).</p>
 <blockquote>
 <p>Fluent method : can be chained with other methods</p>
@@ -503,7 +515,9 @@ Zangdar.setOption('bypass_validation', true)
 Zangdar.refresh()
 </code></pre>
 <br>
-<p><code>getStep(key: String|Number): WizardStep|null</code></p>
+<ul>
+<li><code>getStep(key: String|Number): WizardStep|null</code></li>
+</ul>
 <p>Get a WizardStep instance via his index or his label property (data-label attribute).</p>
 <pre class="prettyprint source lang-javascript"><code>// With step index
 const step1 = Zangdar.getStep(1)
@@ -512,17 +526,23 @@ const step1 = Zangdar.getStep(1)
 const step_one = Zangdar.getStep('one')
 </code></pre>
 <br>
-<p><code>getFormElement(): HTMLFormElement</code></p>
+<ul>
+<li><code>getFormElement(): HTMLFormElement</code></li>
+</ul>
 <p>Get wizard HTML form element.</p>
 <pre class="prettyprint source lang-javascript"><code>const form = Zangdar.getFormElement()
 </code></pre>
 <br>
-<p><code>getCurrentStep(): WizardStep|null</code></p>
+<ul>
+<li><code>getCurrentStep(): WizardStep|null</code></li>
+</ul>
 <p>Get the current WizardStep instance.</p>
 <pre class="prettyprint source lang-javascript"><code>const currentStep = Zangdar.getCurrentStep()
 </code></pre>
 <br>
-<p><code>removeStep(key: Number|String|WizardStep): WizardStep|null</code></p>
+<ul>
+<li><code>removeStep(key: Number|String|WizardStep): WizardStep|null</code></li>
+</ul>
 <p>Remove a step based on his index, label property (data-label attribute) or WizardStep instance.</p>
 <pre class="prettyprint source lang-javascript"><code>const step = Zangdar.getStep('step_six')
 const removedIndex = Zangdar.removeStep(step)
@@ -531,7 +551,9 @@ const removedIndex = Zangdar.removeStep(step)
 Zangdar.refresh()
 </code></pre>
 <br>
-<p><code>first(): Zangdar</code></p>
+<ul>
+<li><code>first(): Zangdar</code></li>
+</ul>
 <p>Reveals first step.</p>
 <blockquote>
 <p>Fluent method : can be chained with other methods</p>
@@ -539,7 +561,9 @@ Zangdar.refresh()
 <pre class="prettyprint source lang-javascript"><code>Zangdar.first()
 </code></pre>
 <br>
-<p><code>last(): Zangdar</code></p>
+<ul>
+<li><code>last(): Zangdar</code></li>
+</ul>
 <p>Reveals last step.</p>
 <blockquote>
 <p>Fluent method : can be chained with other methods</p>
@@ -547,7 +571,9 @@ Zangdar.refresh()
 <pre class="prettyprint source lang-javascript"><code>Zangdar.last()
 </code></pre>
 <br>
-<p><code>prev(): Zangdar</code></p>
+<ul>
+<li><code>prev(): Zangdar</code></li>
+</ul>
 <p>Reveals prev step.</p>
 <blockquote>
 <p>Fluent method : can be chained with other methods</p>
@@ -555,7 +581,9 @@ Zangdar.refresh()
 <pre class="prettyprint source lang-javascript"><code>Zangdar.prev()
 </code></pre>
 <br>
-<p><code>next(): Zangdar</code></p>
+<ul>
+<li><code>next(): Zangdar</code></li>
+</ul>
 <p>Reveals next step.</p>
 <blockquote>
 <p>Fluent method : can be chained with other methods</p>
@@ -563,7 +591,9 @@ Zangdar.refresh()
 <pre class="prettyprint source lang-javascript"><code>Zangdar.next()
 </code></pre>
 <br>
-<p><code>revealStep(key: Number|String|WizardStep): Zangdar</code></p>
+<ul>
+<li><code>revealStep(key: Number|String|WizardStep): Zangdar</code></li>
+</ul>
 <p>Reveal a single step based on his index, label property (data-label attribute) or WizardStep instance.</p>
 <blockquote>
 <p>Fluent method : can be chained with other methods</p>
@@ -584,7 +614,9 @@ Zangdar.refresh()
 }
 </code></pre>
 <br>
-<p><code>createFromTemplate(template: Object): Zangdar</code></p>
+<ul>
+<li><code>createFromTemplate(template: Object): Zangdar</code></li>
+</ul>
 <p>Create a wizard from an existing form with a template which is describes it, according to the options passed on wizard instance creation.
 Useful to convert programmatically a HTML form into a powerful Zangdar wizard (by keeping only choosen fields).</p>
 <blockquote>
@@ -675,7 +707,9 @@ wizard.createFromTemplate(template)
 &lt;/form>
 </code></pre>
 <br>
-<p><code>getBreadcrumb(): Object</code></p>
+<ul>
+<li><code>getBreadcrumb(): Object</code></li>
+</ul>
 <p>Returns an object representing the wizard breadcrumb with the label property as key, and the WizardStep as value.</p>
 <pre class="prettyprint source lang-javascript"><code>const breadcrumb = Zangdar.getBreadcrumb()
 </code></pre>
@@ -697,7 +731,7 @@ wizard.createFromTemplate(template)
 
         <footer class="content-size">
             <div class="footer">
-                Documentation generated by <a target="_blank" href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Sun Apr 05 2020 19:28:20 GMT+0200 (GMT+02:00)
+                Documentation generated by <a target="_blank" href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Tue Apr 07 2020 16:49:04 GMT+0200 (GMT+02:00)
             </div>
         </footer>
     </div>
