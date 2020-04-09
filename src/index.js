@@ -30,67 +30,67 @@ class Zangdar {
 	 * @private
 	 * @type {HTMLFormElement|null}
 	 */
-	#$form = null
+	_$form = null
 
 	/**
 	 * @private
 	 * @type {Object}
 	 */
-	#params = {}
+	_params = {}
 
 	/**
 	 * @private
 	 * @type {HTMLElement|null}
 	 */
-	#$prevButtons = null
+	_$prevButtons = null
 
 	/**
 	 * @private
 	 * @type {WizardStep[]}
 	 */
-	#steps = []
+	_steps = []
 
 	/**
 	 * @private
 	 * @type {number}
 	 */
-	#currentIndex = 0;
+	_currentIndex = 0;
 
 	/**
 	 * @private
 	 * @type {string}
 	 */
-	#uuid = ''
+	_uuid = ''
 
 	/**
 	 * @param {HTMLFormElement|String} selector
 	 * @param {Object} options
-	 * @property {WizardStep[]} #steps
+	 * @property {WizardStep[]} _steps
 	 */
 	constructor(selector, options = {}) {
-		this.#$form = selector instanceof HTMLFormElement
+		this._$form = selector instanceof HTMLFormElement
 			? selector
 			: document.querySelector(selector)
 
-		if (this.#$form !== null && this.#$form.constructor !== HTMLFormElement)
+		if (this._$form !== null && this._$form.constructor !== HTMLFormElement)
 			throw new Error(`[Err] Zangdar.constructor - the container must be a valid HTML form element`)
 
-		this.#params = {
+		this._params = {
 			...DEFAULT_PARAMS,
 			...options
 		}
 
-		this.#$prevButtons = null
-		this.#steps = []
-		this.#currentIndex = this.#params.active_step_index
-		this.#uuid = this.#params.unique_id_prefix + uuid()
+		this._$prevButtons = null
+		this._steps = []
+		this._currentIndex = this._params.active_step_index
+		this._uuid = this._params.unique_id_prefix + uuid()
 
 		this.onSubmit = this.onSubmit.bind(this)
 		this.onPrevStep = this.onPrevStep.bind(this)
 		this.onNextStep = this.onNextStep.bind(this)
 
-		this.#bindEventsContext()
-		this.#init()
+		this._bindEventsContext()
+		this._init()
 	}
 
 	/**
@@ -99,7 +99,7 @@ class Zangdar {
 	 * @returns {Number}
 	 */
 	get currentIndex() {
-		return this.#currentIndex
+		return this._currentIndex
 	}
 
 	/**
@@ -108,7 +108,7 @@ class Zangdar {
 	 * @returns {WizardStep[]}
 	 */
 	get steps() {
-		return this.#steps
+		return this._steps
 	}
 
 	/**
@@ -117,14 +117,14 @@ class Zangdar {
 	 * @returns {String}
 	 */
 	get uniqueId() {
-		return this.#uuid
+		return this._uuid
 	}
 
 	/**
 	 * @return {number}
 	 */
 	count() {
-		return this.#steps.length
+		return this._steps.length
 	}
 
 	/**
@@ -134,8 +134,8 @@ class Zangdar {
 	 * @returns {Zangdar}
 	 */
 	refresh() {
-		this.#buildPrevButton()
-		this.#buildSteps()
+		this._buildPrevButton()
+		this._buildSteps()
 
 		return this
 	}
@@ -146,8 +146,8 @@ class Zangdar {
 	 */
 	destroy() {
 		try {
-			if (this.#params.prev_step_selector !== false) {
-				document.querySelectorAll(this.#params.prev_step_selector).forEach(btn => {
+			if (this._params.prev_step_selector !== false) {
+				document.querySelectorAll(this._params.prev_step_selector).forEach(btn => {
 					btn.removeEventListener('click', this.onPrevStep)
 				})
 			}
@@ -156,8 +156,8 @@ class Zangdar {
 		}
 
 		try {
-			if (this.#params.next_step_selector !== false) {
-				document.querySelectorAll(this.#params.next_step_selector).forEach(btn => {
+			if (this._params.next_step_selector !== false) {
+				document.querySelectorAll(this._params.next_step_selector).forEach(btn => {
 					btn.removeEventListener('click', this.onNextStep)
 				})
 			}
@@ -166,7 +166,7 @@ class Zangdar {
 		}
 
 		try {
-			this.#$form.removeEventListener('submit', this.onSubmit)
+			this._$form.removeEventListener('submit', this.onSubmit)
 		} catch (e) {
 			console.error(`[Err] Zangdar.destroy - Cannot remove Event Listeners on form submit buttons - ${e.message}`)
 		}
@@ -180,10 +180,10 @@ class Zangdar {
 	 */
 	getStep(key) {
 		if (key.constructor === String)
-			return this.#steps.find(step => step.labeled(key))
+			return this._steps.find(step => step.labeled(key))
 
 		if (key.constructor === Number)
-			return this.#steps[key]
+			return this._steps[key]
 
 		return null
 	}
@@ -194,7 +194,7 @@ class Zangdar {
 	 * @returns {HTMLFormElement}
 	 */
 	getFormElement() {
-		return this.#$form
+		return this._$form
 	}
 
 	/**
@@ -203,7 +203,7 @@ class Zangdar {
 	 * @returns {WizardStep|null} the current WizardStep instance if exists, null otherwise
 	 */
 	getCurrentStep() {
-		return this.getStep(this.#currentIndex)
+		return this.getStep(this._currentIndex)
 	}
 
 	/**
@@ -221,7 +221,7 @@ class Zangdar {
 		if (!step) return false
 
 		step.removeElement()
-		this.#steps = this.#steps.filter(s => !s.indexed(step.index))
+		this._steps = this._steps.filter(s => !s.indexed(step.index))
 		this.refresh()
 
 		return step.index
@@ -235,7 +235,7 @@ class Zangdar {
 	 * @returns {Zangdar}
 	 */
 	first() {
-		this.#firstStep()
+		this._firstStep()
 
 		return this
 	}
@@ -247,7 +247,7 @@ class Zangdar {
 	 * @returns {Zangdar}
 	 */
 	last() {
-		this.#lastStep()
+		this._lastStep()
 
 		return this
 	}
@@ -259,7 +259,7 @@ class Zangdar {
 	 * @returns {Zangdar}
 	 */
 	prev() {
-		this.#prevStep()
+		this._prevStep()
 
 		return this
 	}
@@ -271,7 +271,7 @@ class Zangdar {
 	 * @returns {Zangdar}
 	 */
 	next() {
-		this.#nextStep()
+		this._nextStep()
 
 		return this
 	}
@@ -284,8 +284,8 @@ class Zangdar {
 	 * @returns {Zangdar}
 	 */
 	setOption(key, value) {
-		if (key in this.#params)
-			this.#params[key] = value
+		if (key in this._params)
+			this._params[key] = value
 
 		return this
 	}
@@ -303,7 +303,7 @@ class Zangdar {
 			let index = null
 
 			if (value.constructor === String)
-				index = this.#steps.findIndex(step => step.labeled(value))
+				index = this._steps.findIndex(step => step.labeled(value))
 			else if (value instanceof WizardStep)
 				index = value.index
 			else if (value.constructor === Number)
@@ -312,14 +312,14 @@ class Zangdar {
 			if (index === undefined || index === null || index < 0)
 				index = 0
 
-			if (index !== this.#currentIndex) {
+			if (index !== this._currentIndex) {
 				const oldStep = this.getCurrentStep()
 				const direction = oldStep && oldStep.index > index ? -1 : 1
 
-				if (direction < 0 || this.#validateCurrentStep()) {
-					this.#currentIndex = index
-					this.#revealStep()
-					this.#onStepChange(oldStep, direction)
+				if (direction < 0 || this._validateCurrentStep()) {
+					this._currentIndex = index
+					this._revealStep()
+					this._onStepChange(oldStep, direction)
 				}
 			}
 
@@ -348,9 +348,9 @@ class Zangdar {
 
 			if (template.hasOwnProperty(label)) {
 				const fields = template[label]
-				const $section = this.#buildSection(label)
+				const $section = this._buildSection(label)
 				fields.forEach(field => {
-					const el = this.#$form.querySelector(field)
+					const el = this._$form.querySelector(field)
 
 					if (el !== null) {
 						const newElm = el.cloneNode(true)
@@ -360,16 +360,16 @@ class Zangdar {
 					}
 				})
 
-				if (i < Object.keys(template).length && this.#params.next_step_selector !== false && $section.querySelector(this.#params.next_step_selector) === null) {
+				if (i < Object.keys(template).length && this._params.next_step_selector !== false && $section.querySelector(this._params.next_step_selector) === null) {
 					let $nextButton = document.createElement('button')
-					$nextButton = appendSelector(this.#params.next_step_selector, null, $nextButton)
+					$nextButton = appendSelector(this._params.next_step_selector, null, $nextButton)
 					$nextButton.dataset.next = 'next'
 					$nextButton.innerText = 'Next'
 					$section.appendChild($nextButton)
 				}
 
-				if (i === Object.keys(template).length && this.#params.submit_selector !== false) {
-					const $submitButton = this.#$form.querySelector(this.#params.submit_selector)
+				if (i === Object.keys(template).length && this._params.submit_selector !== false) {
+					const $submitButton = this._$form.querySelector(this._params.submit_selector)
 
 					if ($submitButton !== null) {
 						const newBtn = $submitButton.cloneNode(true)
@@ -377,11 +377,11 @@ class Zangdar {
 						$submitButton.parentNode.removeChild($submitButton)
 					}
 				}
-				this.#$form.appendChild($section)
+				this._$form.appendChild($section)
 			}
 		}
 
-		this.#init()
+		this._init()
 
 		return this
 	}
@@ -390,7 +390,7 @@ class Zangdar {
 	 * @returns {Object}
 	 */
 	getBreadcrumb() {
-		return this.#steps.reduce((acc, step) => ({...acc, ...{[step.label]: step}}), {})
+		return this._steps.reduce((acc, step) => ({...acc, ...{[step.label]: step}}), {})
 	}
 
 	/**
@@ -401,8 +401,8 @@ class Zangdar {
 	onNextStep(e) {
 		e.preventDefault()
 
-		if (this.#validateCurrentStep())
-			this.#nextStep()
+		if (this._validateCurrentStep())
+			this._nextStep()
 	}
 
 	/**
@@ -412,7 +412,7 @@ class Zangdar {
 	 */
 	onPrevStep(e) {
 		e.preventDefault()
-		this.#prevStep()
+		this._prevStep()
 	}
 
 	/**
@@ -421,9 +421,9 @@ class Zangdar {
 	 * @private
 	 */
 	onSubmit(e) {
-		if (this.#validateCurrentStep()) {
-			if (this.#params.onSubmit && this.#params.onSubmit.constructor === Function)
-				this.#params.onSubmit(e)
+		if (this._validateCurrentStep()) {
+			if (this._params.onSubmit && this._params.onSubmit.constructor === Function)
+				this._params.onSubmit(e)
 			else e.target.submit()
 		}
 	}
@@ -431,44 +431,44 @@ class Zangdar {
 	/**
 	 * @private
 	 */
-	#init() {
-		if (this.#$form.querySelectorAll(this.#params.step_selector).length) {
-			this.#buildForm()
-			this.#buildPrevButton()
-			this.#buildSteps()
+	_init() {
+		if (this._$form.querySelectorAll(this._params.step_selector).length) {
+			this._buildForm()
+			this._buildPrevButton()
+			this._buildSteps()
 		}
 	}
 
 	/**
 	 * @private
 	 */
-	#buildForm() {
-		this.#$form.classList.add(this.#params.classes.form)
-		this.#$form.dataset.wizard = this.#uuid
+	_buildForm() {
+		this._$form.classList.add(this._params.classes.form)
+		this._$form.dataset.wizard = this._uuid
 
-		!this.#$form.hasAttribute('name') && (this.#$form.setAttribute('name', this.#uuid))
+		!this._$form.hasAttribute('name') && (this._$form.setAttribute('name', this._uuid))
 
-		this.#$form.removeEventListener('submit', this.onSubmit)
-		this.#$form.addEventListener('submit', this.onSubmit)
+		this._$form.removeEventListener('submit', this.onSubmit)
+		this._$form.addEventListener('submit', this.onSubmit)
 	}
 
 	/**
 	 * @private
 	 */
-	#buildPrevButton() {
-		if (this.#params.prev_step_selector === false) return
+	_buildPrevButton() {
+		if (this._params.prev_step_selector === false) return
 
-		this.#$prevButtons = this.#$form.querySelectorAll(this.#params.prev_step_selector)
+		this._$prevButtons = this._$form.querySelectorAll(this._params.prev_step_selector)
 
-		if (!this.#$prevButtons || !this.#$prevButtons.length) {
+		if (!this._$prevButtons || !this._$prevButtons.length) {
 			const $prevBtn = document.createElement('button')
 			$prevBtn.setAttribute('data-prev', '')
 			$prevBtn.innerText = 'Prev.'
-			this.#$form.insertBefore($prevBtn, this.#$form.firstChild)
-			this.#buildPrevButton()
+			this._$form.insertBefore($prevBtn, this._$form.firstChild)
+			this._buildPrevButton()
 		} else {
-			Array.from(this.#$prevButtons).forEach(btn => {
-				btn.classList.add(this.#params.classes.prev_button)
+			Array.from(this._$prevButtons).forEach(btn => {
+				btn.classList.add(this._params.classes.prev_button)
 				btn.removeEventListener('click', this.onPrevStep)
 				btn.addEventListener('click', this.onPrevStep)
 			})
@@ -478,15 +478,15 @@ class Zangdar {
 	/** 
 	 * @private
 	 */
-	#buildSteps() {
-		let steps = Array.from(this.#$form.querySelectorAll(this.#params.step_selector))
+	_buildSteps() {
+		let steps = Array.from(this._$form.querySelectorAll(this._params.step_selector))
 
-		this.#steps = steps.reduce((acc, item, index) => {
-			acc.push(this.#buildStep(item, index, steps.length - 1 === index))
+		this._steps = steps.reduce((acc, item, index) => {
+			acc.push(this._buildStep(item, index, steps.length - 1 === index))
 
 			let $nextButton
-			if (index < steps.length - 1 && ($nextButton = item.querySelector(this.#params.next_step_selector)) !== null) {
-				$nextButton.classList.add(this.#params.classes.next_button)
+			if (index < steps.length - 1 && ($nextButton = item.querySelector(this._params.next_step_selector)) !== null) {
+				$nextButton.classList.add(this._params.classes.next_button)
 				$nextButton.removeEventListener('click', this.onNextStep)
 				$nextButton.addEventListener('click', this.onNextStep)
 			}
@@ -494,9 +494,9 @@ class Zangdar {
 			return acc
 		}, [])
 
-		this.#currentIndex = this.#params.active_step_index
+		this._currentIndex = this._params.active_step_index
 
-		this.#revealStep()
+		this._revealStep()
 	}
 
 	/**
@@ -505,10 +505,10 @@ class Zangdar {
 	 * 
 	 * @private
 	 */
-	#buildSection(label) {
+	_buildSection(label) {
 		let $section = document.createElement('section')
 
-		return appendSelector(this.#params.step_selector, label, $section)
+		return appendSelector(this._params.step_selector, label, $section)
 	}
 
 	/**
@@ -518,15 +518,15 @@ class Zangdar {
 	 *
 	 * @private
 	 */
-	#buildStep(item, index, last) {
+	_buildStep(item, index, last) {
 		const label = item.dataset.step
-		const isActive = index === this.#params.active_step_index
+		const isActive = index === this._params.active_step_index
 
-		item.classList.add(this.#params.classes.step)
+		item.classList.add(this._params.classes.step)
 
 		if (isActive) {
-			item.classList.add(this.#params.classes.step_active)
-			this.#currentIndex = index
+			item.classList.add(this._params.classes.step_active)
+			this._currentIndex = index
 		}
 
 		return new WizardStep(index, item, label, isActive, last)
@@ -535,79 +535,79 @@ class Zangdar {
 	/**
 	 * @private
 	 */
-	#revealStep() {
-		this.#steps.forEach((step, i) => {
-			this.#steps[i].active = step.indexed(this.#currentIndex)
+	_revealStep() {
+		this._steps.forEach((step, i) => {
+			this._steps[i].active = step.indexed(this._currentIndex)
 			if (step.active)
-				step.element.classList.add(this.#params.classes.step_active)
+				step.element.classList.add(this._params.classes.step_active)
 			else
-				step.element.classList.remove(this.#params.classes.step_active)
+				step.element.classList.remove(this._params.classes.step_active)
 		})
-		this.#hidePrevBtns()
+		this._hidePrevBtns()
 	}
 
 	/**
 	 * @private
 	 */
-	#hidePrevBtns() {
-		if (!this.#$prevButtons || !this.#$prevButtons.length)
-			this.#buildPrevButton()
+	_hidePrevBtns() {
+		if (!this._$prevButtons || !this._$prevButtons.length)
+			this._buildPrevButton()
 		else
-			Array.from(this.#$prevButtons).forEach(btn => {
-				btn.style.display = this.#currentIndex === 0 ? 'none' : ''
+			Array.from(this._$prevButtons).forEach(btn => {
+				btn.style.display = this._currentIndex === 0 ? 'none' : ''
 			})
 	}
 
 	/**
 	 * @private
 	 */
-	#prevStep() {
+	_prevStep() {
 		const oldStep = this.getCurrentStep()
 		oldStep.completed = false
-		this.#currentIndex = this.#currentIndex - 1 < 0 ? 0 : this.#currentIndex - 1
-		this.#revealStep()
-		this.#onStepChange(oldStep, -1)
+		this._currentIndex = this._currentIndex - 1 < 0 ? 0 : this._currentIndex - 1
+		this._revealStep()
+		this._onStepChange(oldStep, -1)
 	}
 
 	/**
 	 * @private
 	 */
-	#nextStep() {
+	_nextStep() {
 		const oldStep = this.getCurrentStep()
 		oldStep.completed = true
-		this.#currentIndex = this.#currentIndex < this.#steps.length - 1
-			? this.#currentIndex + 1
-			: this.#steps.length
-		this.#revealStep()
-		this.#onStepChange(oldStep, 1)
+		this._currentIndex = this._currentIndex < this._steps.length - 1
+			? this._currentIndex + 1
+			: this._steps.length
+		this._revealStep()
+		this._onStepChange(oldStep, 1)
 	}
 
 	/**
 	 * @private
 	 */
-	#firstStep() {
+	_firstStep() {
 		const oldStep = this.getCurrentStep()
-		this.#steps.map(step => {
+		this._steps.map(step => {
 			step.completed = false
 			step.active = false
 		})
-		this.#currentIndex = 0
-		this.#revealStep()
-		this.#onStepChange(oldStep, -1)
+		this._currentIndex = 0
+		this._revealStep()
+		this._onStepChange(oldStep, -1)
 	}
 
 	/**
 	 * @private
 	 */
-	#lastStep() {
+	_lastStep() {
 		const oldStep = this.getCurrentStep()
-		this.#currentIndex = this.#steps.length - 1
-		this.#steps.map(step => {
-			step.completed = !step.indexed(this.#currentIndex)
+		this._currentIndex = this._steps.length - 1
+		this._steps.map(step => {
+			step.completed = !step.indexed(this._currentIndex)
 			step.active = false
 		})
-		this.#revealStep()
-		this.#onStepChange(oldStep, 1)
+		this._revealStep()
+		this._onStepChange(oldStep, 1)
 	}
 
 	/**
@@ -615,32 +615,32 @@ class Zangdar {
 	 * @param {Number} direction
 	 * @private
 	 */
-	#onStepChange(oldStep, direction) {
-		if (this.#params.onStepChange && this.#params.onStepChange.constructor === Function)
-			this.#params.onStepChange(this.getCurrentStep(), oldStep, direction, this.#$form)
+	_onStepChange(oldStep, direction) {
+		if (this._params.onStepChange && this._params.onStepChange.constructor === Function)
+			this._params.onStepChange(this.getCurrentStep(), oldStep, direction, this._$form)
 	}
 
 	/**
 	 * @private
 	 */
-	#validateCurrentStep() {
-		if (this.#params.bypass_validation === true) return true;
+	_validateCurrentStep() {
+		if (this._params.bypass_validation === true) return true;
 		const currentStep = this.getCurrentStep()
 
 		if (currentStep === undefined) return true;
 
-		if (this.#params.customValidation && this.#params.customValidation.constructor === Function) {
-			this.#$form.setAttribute('novalidate', '')
+		if (this._params.customValidation && this._params.customValidation.constructor === Function) {
+			this._$form.setAttribute('novalidate', '')
 
-			return this.#params.customValidation(currentStep, currentStep.fields, this.#$form)
+			return this._params.customValidation(currentStep, currentStep.fields, this._$form)
 		}
 
-		this.#$form.removeAttribute('novalidate')
+		this._$form.removeAttribute('novalidate')
 		const isValid = currentStep.validate()
 		let customValid = true
 
-		if (this.#params.onValidation && this.#params.onValidation.constructor === Function)
-			customValid = this.#params.onValidation(currentStep, currentStep.fields, this.#$form)
+		if (this._params.onValidation && this._params.onValidation.constructor === Function)
+			customValid = this._params.onValidation(currentStep, currentStep.fields, this._$form)
 
 		return isValid && customValid
 	}
@@ -648,11 +648,11 @@ class Zangdar {
 	/**
 	 * @private
 	 */
-	#bindEventsContext() {
+	_bindEventsContext() {
 		['onSubmit', 'onStepChange', 'onValidation', 'customValidation']
 			.forEach(eventName => {
-				if (this.#params[eventName] && this.#params[eventName].constructor === Function)
-					this.#params[eventName] = this.#params[eventName].bind(this)
+				if (this._params[eventName] && this._params[eventName].constructor === Function)
+					this._params[eventName] = this._params[eventName].bind(this)
 			})
 	}
 }

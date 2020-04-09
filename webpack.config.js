@@ -17,14 +17,14 @@ const baseConfig = {
     }
 }
 
-const serverConfig = {
+/* const serverConfig = {
 	target: "node",
 	output: {
 			path: buildPath,
 			filename: 'zangdar.node.js',
 	},
 	...baseConfig
-}
+} */
 const browserConfig = {
 	target: "web",
 	output: {
@@ -35,6 +35,6 @@ const browserConfig = {
 }
 
 module.exports = [
-	serverConfig,
+	// serverConfig,
 	browserConfig
 ]

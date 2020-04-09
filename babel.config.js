@@ -10,8 +10,7 @@ module.exports = {
     ],
     plugins: [
         '@babel/plugin-transform-runtime',
-        ['@babel/plugin-proposal-class-properties', { "loose": false }],
-        ["@babel/plugin-proposal-private-methods", { "loose": false }],
+        '@babel/plugin-proposal-class-properties',
         ["@babel/plugin-transform-modules-commonjs", {
             "allowTopLevelThis": true
         }]

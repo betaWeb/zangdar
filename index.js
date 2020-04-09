@@ -1,3 +1,3 @@
-const Zangdar = require('./dist/zangdar.node.js')
+const Zangdar = require('./dist/zangdar.min.js')
 
 module.exports = Zangdar
