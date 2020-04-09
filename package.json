@@ -43,6 +43,7 @@
 		"@babel/preset-env": "^7.9.0",
 		"@babel/runtime": "^7.9.2",
 		"@pixi/jsdoc-template": "^2.6.0",
+		"@testing-library/jest-dom": "^5.4.0",
 		"@types/jest": "^25.2.1",
 		"babel-loader": "^8.1.0",
 		"better-docs": "^1.4.7",

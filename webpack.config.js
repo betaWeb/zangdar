@@ -21,7 +21,7 @@ const serverConfig = {
 	target: "node",
 	output: {
 			path: buildPath,
-			filename: `zangdar.node.min.js`,
+			filename: 'zangdar.node.js',
 	},
 	...baseConfig
 }
@@ -29,7 +29,7 @@ const browserConfig = {
 	target: "web",
 	output: {
 			path: buildPath,
-			filename: `zangdar.min.js`,
+			filename: 'zangdar.min.js',
 	},
 	...baseConfig
 }
