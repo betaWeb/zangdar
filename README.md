@@ -456,6 +456,6 @@ const breadcrumb = Zangdar.getBreadcrumb()
 <br><br>
 
 ## TODO
- * [x] Finish Zangdar **Available methods, getters and setters** readme section
  * [ ] Add WizardStep **Available methods, getters and setters** readme section
  * [ ] Update gh-pages API docs
+ * [ ] Fix last step non functional custom validation
